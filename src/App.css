@@ -98,8 +98,7 @@
 .hero-slide-bg {
   position: absolute;
   inset: 0;
-  background-size: cover;
-  background-position: center;
+  overflow: hidden;
   transition: opacity 1s ease, transform 8s ease;
   will-change: transform, opacity;
 }

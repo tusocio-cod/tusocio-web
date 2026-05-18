@@ -22,11 +22,14 @@ import './index.css';
 import './App.css';
 import images from './images';
 
+// ── WhatsApp — altere apenas aqui para mudar número ou mensagem ──
+const WA_LINK = "https://wa.me/5511952170637?text=Hola%2C%20vi%20el%20sitio%20web%20y%20quisiera%20m%C3%A1s%20informaci%C3%B3n.";
+
 const menuData = [
   {
     title: "Contabilidad",
     columns: 2,
-    cta: { text: "Hablar con un especialista", link: "https://wa.me/5511999999999" },
+    cta: { text: "Hablar con un especialista", link: WA_LINK },
     items: [
       { title: "Contabilidad Mensual", desc: "Mantén tu empresa en regla todos los meses con impuestos.", link: "/contabilidad-mensual" },
       { title: "Apertura de CNPJ", desc: "Abre tu empresa en Brasil con acompañamiento completo.", link: "/apertura-cnpj" },
@@ -117,7 +120,7 @@ const heroSlides = [
     eyebrow: 'LA SOLUCIÓN PARA TU NEGOCIO',
     title: ['Infraestructura contable,', 'fiscal y empresarial', 'para tu negocio.'],
     subtitle: 'Una solución completa para emprendedores, comercios y empresas que quieren operar en Brasil con seguridad, vender por marketplace y mantener CNPJ, impuestos y documentos en orden.',
-    primaryBtn: { label: 'Consultar por WhatsApp', href: 'https://wa.me/5511999999999' },
+    primaryBtn: { label: 'Consultar por WhatsApp', href: WA_LINK },
     secondaryBtn: { label: 'Conocer soluciones', href: '#soluciones' },
     benefits: ['CNPJ listo para operar', 'Contabilidad empresarial', 'Marketplace e impuestos'],
   },
@@ -126,7 +129,7 @@ const heroSlides = [
     eyebrow: 'TEMPORADA FISCAL 2026',
     title: ['Declaración de renta 2026', 'con orientación', 'clara y segura.'],
     subtitle: 'Organizamos tus ingresos, bienes, documentos y obligaciones para declarar correctamente en Brasil, con atención en español y acompañamiento paso a paso.',
-    primaryBtn: { label: 'Declarar mi renta', href: 'https://wa.me/5511999999999' },
+    primaryBtn: { label: 'Declarar mi renta', href: WA_LINK },
     secondaryBtn: { label: 'Consultar requisitos', href: '#soluciones' },
     benefits: ['Personas y empresas', 'Bienes e ingresos', 'Atención en español'],
   },
@@ -135,7 +138,7 @@ const heroSlides = [
     eyebrow: 'MARKETPLACE Y NEGOCIOS DIGITALES',
     title: ['Vende en marketplace', 'con tu empresa', 'en orden.'],
     subtitle: 'Preparamos tu CNPJ, certificado digital, nota fiscal, impuestos y contabilidad para vender con más seguridad en Shopee, Shein, Mercado Libre, TikTok Shop y otros canales.',
-    primaryBtn: { label: 'Preparar mi empresa', href: 'https://wa.me/5511999999999' },
+    primaryBtn: { label: 'Preparar mi empresa', href: WA_LINK },
     secondaryBtn: { label: 'Ver soluciones', href: '#soluciones' },
     benefits: ['Nota fiscal', 'Certificado digital', 'Shopee, Shein y Mercado Libre'],
   },
@@ -144,7 +147,7 @@ const heroSlides = [
     eyebrow: 'DOCUMENTOS EN BRASIL',
     title: ['CPF, RNM y trámites', 'documentales con', 'acompañamiento.'],
     subtitle: 'Te orientamos en documentos, protocolos y procesos importantes para vivir, emprender y organizar tu situación en Brasil con más tranquilidad.',
-    primaryBtn: { label: 'Consultar documentación', href: 'https://wa.me/5511999999999' },
+    primaryBtn: { label: 'Consultar documentación', href: WA_LINK },
     secondaryBtn: { label: 'Hablar con un especialista', href: '#soluciones' },
     benefits: ['CPF y RNM', 'Protocolos', 'Soporte en español'],
   },
@@ -153,7 +156,7 @@ const heroSlides = [
     eyebrow: 'ASESORÍA INMOBILIARIA',
     title: ['Trámites inmobiliarios', 'con análisis y', 'acompañamiento.'],
     subtitle: 'Apoyamos en la revisión de documentos, contratos, requisitos y procesos para compra, alquiler o regularización inmobiliaria en Brasil.',
-    primaryBtn: { label: 'Consultar asesoría', href: 'https://wa.me/5511999999999' },
+    primaryBtn: { label: 'Consultar asesoría', href: WA_LINK },
     secondaryBtn: { label: 'Conocer el proceso', href: '#soluciones' },
     benefits: ['Análisis documental', 'Contratos y requisitos', 'Acompañamiento'],
   },
@@ -232,17 +235,30 @@ function HeroSlider() {
       }}
       aria-label="Hero Slider"
     >
-      {/* Background images — all preloaded, only active one visible */}
+      {/* Background images — first loaded eagerly, rest lazily */}
       {heroSlides.map((s, i) => (
         <div
           key={i}
           className="hero-slide-bg"
           style={{
-            backgroundImage: `url('${s.image}')`,
             opacity: i === current ? 1 : 0,
             transform: i === current ? 'scale(1.04)' : 'scale(1)',
           }}
-        />
+        >
+          <img
+            src={s.image}
+            alt=""
+            aria-hidden="true"
+            loading={i === 0 ? 'eager' : 'lazy'}
+            fetchPriority={i === 0 ? 'high' : 'low'}
+            decoding={i === 0 ? 'sync' : 'async'}
+            style={{
+              position: 'absolute', inset: 0,
+              width: '100%', height: '100%',
+              objectFit: 'cover', objectPosition: 'center',
+            }}
+          />
+        </div>
       ))}
 
       {/* Overlay */}
@@ -485,7 +501,7 @@ function App() {
               </div>
             </div>
 
-            <a href="https://wa.me/5511999999999" className="btn btn-primary btn-pill font-bold">Abrir empresa</a>
+            <a href={WA_LINK} className="btn btn-primary btn-pill font-bold">Abrir empresa</a>
           </div>
         </div>
       </header>
@@ -532,7 +548,7 @@ function App() {
                 <h3 className="text-white font-semibold text-2xl mb-2">¿No sabes por dónde empezar?</h3>
                 <p className="text-gray-300 text-lg">Hablamos contigo y te indicamos el mejor camino para tu negocio.</p>
               </div>
-              <a href="https://wa.me/5511999999999" className="btn btn-primary btn-pill flex items-center gap-2 whitespace-nowrap mt-4 md:mt-0 hover-lift" style={{ backgroundColor: 'var(--color-primary)', color: 'white', border: 'none', boxShadow: '0 4px 14px rgba(255,90,0,0.3)' }}>
+              <a href={WA_LINK} className="btn btn-primary btn-pill flex items-center gap-2 whitespace-nowrap mt-4 md:mt-0 hover-lift" style={{ backgroundColor: 'var(--color-primary)', color: 'white', border: 'none', boxShadow: '0 4px 14px rgba(255,90,0,0.3)' }}>
                 <MessageCircle size={18} /> Hablar con un especialista
               </a>
             </div>
@@ -559,7 +575,7 @@ function App() {
                 <div style={{ width: '40px', height: '2px', background: 'var(--color-primary)', marginBottom: '2rem' }}></div>
                 <h3 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'white', lineHeight: 1.3, marginBottom: '1.5rem' }}>Un proceso pensado para que siempre sepas el próximo paso.</h3>
                 <p style={{ color: '#9ca3af', lineHeight: 1.7, marginBottom: '2.5rem' }}>Analizamos tu caso, organizamos documentos, ejecutamos el proceso y te mantenemos informado hasta que tu empresa esté en orden.</p>
-                <a href="https://wa.me/5511999999999" className="btn btn-pill flex items-center gap-2" style={{ backgroundColor: 'var(--color-primary)', color: 'white', border: 'none', boxShadow: '0 4px 14px rgba(255,90,0,0.35)', width: 'fit-content' }}>
+                <a href={WA_LINK} className="btn btn-pill flex items-center gap-2" style={{ backgroundColor: 'var(--color-primary)', color: 'white', border: 'none', boxShadow: '0 4px 14px rgba(255,90,0,0.35)', width: 'fit-content' }}>
                   <MessageCircle size={18} /> Hablar con un especialista
                 </a>
               </div>
@@ -775,7 +791,7 @@ function App() {
                   { href: '#', icon: <InstagramIcon size={20} /> },
                   { href: '#', icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z" /></svg> },
                   { href: '#', icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" /></svg> },
-                  { href: 'https://wa.me/5511999999999', icon: <MessageCircle size={20} /> }
+                  { href: WA_LINK, icon: <MessageCircle size={20} /> }
                 ].map((s, i) => (
                   <a key={i} href={s.href} style={{ width: '40px', height: '40px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9ca3af', transition: 'all 0.2s' }}
                     onMouseOver={e => { e.currentTarget.style.color = 'white'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'; }}
@@ -814,7 +830,7 @@ function App() {
 
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/5511999999999"
+        href={WA_LINK}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Hablar por WhatsApp"
