@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { ChevronRight, Globe, Lock, Shield, ArrowRight, CheckCircle2, ChevronDown, Building2, MessageCircle, Star, ClipboardList, ShieldCheck, Key, FileText, ShoppingCart, Box, MessageSquare, FileSearch, CheckSquare, Send, Users, BarChart3 } from 'lucide-react';
+import { ChevronRight, Globe, Lock, Shield, ArrowRight, CheckCircle2, ChevronDown, Building2, MessageCircle, Star, ClipboardList, ShieldCheck, Key, FileText, ShoppingCart, Box, MessageSquare, FileSearch, CheckSquare, Send, Users, BarChart3, Mail } from 'lucide-react';
 
 const InstagramIcon = ({ size = 24, color = "currentColor", className = "" }) => (
   <svg
@@ -18,8 +18,29 @@ const InstagramIcon = ({ size = 24, color = "currentColor", className = "" }) =>
     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
   </svg>
 );
+
+const FacebookIcon = ({ size = 20, color = "currentColor", className = "" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+  </svg>
+);
+
+const TikTokIcon = ({ size = 20, color = "currentColor", className = "" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+  </svg>
+);
+
+const YoutubeIcon = ({ size = 20, color = "currentColor", className = "" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
+    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="none" />
+  </svg>
+);
+
 import './index.css';
 import './App.css';
+import './mobile.css';
 import images from './images';
 
 // ── WhatsApp — altere apenas aqui para mudar número ou mensagem ──
@@ -29,76 +50,62 @@ const menuData = [
   {
     title: "Contabilidad",
     columns: 2,
-    cta: { text: "Hablar con un especialista", link: WA_LINK },
+    cta: { text: "Consultar Especialista", link: WA_LINK },
     items: [
       { title: "Contabilidad Mensual", desc: "Mantén tu empresa en regla todos los meses con impuestos.", link: "/contabilidad-mensual" },
       { title: "Apertura de CNPJ", desc: "Abre tu empresa en Brasil con acompañamiento completo.", link: "/apertura-cnpj" },
       { title: "Regularización de CNPJ", desc: "Resuelve pendencias, declaraciones atrasadas y deudas.", link: "/regularizacion-cnpj" },
-      { title: "Certificado Digital", desc: "E-CPF y E-CNPJ para emitir notas y operar con seguridad.", link: "/certificado-digital" },
+      { title: "Certificado Digital", desc: "E-CPF y E-CNPJ para operar y emitir facturas con seguridad.", link: "/certificado-digital" },
       { title: "Nota Fiscal e Impuestos", desc: "Orientación para emitir notas fiscales y mantener impuestos en orden.", link: "/nota-fiscal-impuestos" },
-      { title: "Contabilidad Marketplace", desc: "Soporte para vendedores de Shopee, Shein y Mercado Libre.", link: "/contabilidad-marketplace" },
-      { title: "Consultoría Empresarial", desc: "Organiza tu negocio, mejora tus números y toma decisiones.", link: "/consultoria-empresarial" }
+      { title: "Consultoría", desc: "Organiza tu negocio, mejora tus números y toma decisiones estratégicas.", link: "/consultoria" }
+    ]
+  },
+  {
+    title: "Documentación",
+    columns: 1,
+    cta: { text: "Consultar Especialista", link: WA_LINK },
+    items: [
+      { title: "RNM Temporario y Permanente", desc: "Apoyo completo con el Registro Nacional Migratorio y residencia.", link: "/rnm-residencia" },
+      { title: "CPF para Extranjeros", desc: "Orientación para obtener o regularizar tu CPF en Brasil.", link: "/cpf-extranjeros" },
+      { title: "Pasaporte", desc: "Asistencia para trámites y emisión de pasaportes.", link: "/pasaporte" },
+      { title: "Traducciones Juramentadas", desc: "Traducción oficial de documentos para trámites legales.", link: "/traducciones" },
+      { title: "Naturalización", desc: "Asesoramiento completo para obtener la nacionalidad brasileña.", link: "/naturalizacion" }
     ]
   },
   {
     title: "Marketplace",
     columns: 2,
-    cta: { text: "Preparar mi negocio", link: "/marketplace" },
+    cta: { text: "Consultar Especialista", link: WA_LINK },
     items: [
-      { title: "Vender en Marketplace", desc: "Prepara tu empresa para vender con seguridad online.", link: "/marketplace" },
+      { title: "Empezar a vender online", desc: "Prepara tu empresa para vender con seguridad online.", link: "/marketplace" },
       { title: "CNPJ para Marketplace", desc: "Abre o ajusta tu CNPJ para operar en canales de venta.", link: "/cnpj-marketplace" },
       { title: "Certificado Digital", desc: "Emite notas, firma documentos y mantén tu operación activa.", link: "/certificado-digital" },
       { title: "Nota Fiscal e Impuestos", desc: "Organiza tus notas fiscales y obligaciones de venta.", link: "/nota-fiscal-impuestos" },
-      { title: "Regularización de Cuenta", desc: "Orientación para vendedores con problemas fiscales.", link: "/regularizacion-marketplace" },
-      { title: "Shopee, Shein y Mercado Libre", desc: "Soluciones para vendedores que quieren más estructura.", link: "/marketplace-plataformas" }
+      { title: "Alteración de Cuenta CPF para CNPJ", desc: "Orientación para migrar de CPF a CNPJ en tus tiendas.", link: "/regularizacion-marketplace" },
+      { title: "Shopee, Shein y TiktokShop", desc: "Soluciones para vendedores en las principales plataformas.", link: "/marketplace-plataformas" }
     ]
   },
   {
     title: "Inversiones",
     columns: 1,
-    cta: { text: "Hablar con un asesor", link: "/inversiones-brasil" },
+    cta: { text: "Consultar Especialista", link: WA_LINK },
     items: [
-      { title: "Inversiones en Brasil", desc: "Orientación para entender oportunidades y obligaciones.", link: "/inversiones-brasil" },
-      { title: "Organización Patrimonial", desc: "Apoyo para estructurar bienes e ingresos.", link: "/organizacion-patrimonial" },
-      { title: "Impuestos sobre Inversiones", desc: "Declaración fiscal para rendimientos y patrimonio.", link: "/impuestos-inversiones" },
-      { title: "Planificación Financiera", desc: "Organiza tus números antes de tomar decisiones.", link: "/planificacion-financiera" },
-      { title: "Declaración de Renta", desc: "Soporte para declarar bienes e inversiones.", link: "/declaracion-renta" }
+      { title: "Inversiones en Bolsa", desc: "Orientación para entender oportunidades en el mercado de valores.", link: "/inversiones-bolsa" },
+      { title: "Inversiones en el Exterior", desc: "Estrategias para diversificar capital fuera de Brasil.", link: "/inversiones-exterior" },
+      { title: "Planificación Patrimonial", desc: "Estructuración de bienes y planificación sucesoria.", link: "/planificacion-patrimonial" },
+      { title: "Planificación Financiera", desc: "Organización y control de tus flujos financieros y metas.", link: "/planificacion-financiera" },
+      { title: "Inversión Inmobiliaria", desc: "Asesoría para invertir en inmuebles con alto rendimiento.", link: "/inversion-inmobiliaria" }
     ]
   },
   {
     title: "Inmobiliaria",
     columns: 1,
-    cta: { text: "Consultar oportunidades", link: "/inmobiliaria" },
+    cta: { text: "Consultar Especialista", link: WA_LINK },
     items: [
-      { title: "Comprar Inmueble en Brasil", desc: "Orientación para invertir o vivir en Brasil.", link: "/comprar-inmueble-brasil" },
-      { title: "Alquiler para Extranjeros", desc: "Apoyo con documentos y contratos para alquilar.", link: "/alquiler-extranjeros" },
-      { title: "Documentación Inmobiliaria", desc: "Organiza contratos y requisitos antes de avanzar.", link: "/documentacion-inmobiliaria" },
-      { title: "Regularización de Inmuebles", desc: "Apoyo para revisar pendencias y obligaciones.", link: "/regularizacion-inmuebles" },
-      { title: "Impuestos sobre Inmuebles", desc: "Orientación fiscal para compra, venta y alquiler.", link: "/impuestos-inmuebles" }
-    ]
-  },
-  {
-    title: "Nosotros",
-    columns: 1,
-    cta: { text: "Conocer Tu Socio", link: "/nosotros" },
-    items: [
-      { title: "Quiénes Somos", desc: "Conoce la historia y el propósito de Tu Socio.", link: "/nosotros" },
-      { title: "Nuestro Método", desc: "Procesos para abrir y regularizar negocios en Brasil.", link: "/metodo-tu-socio" },
-      { title: "Para Quién Trabajamos", desc: "Emprendedores, comercios y familias.", link: "/publico" },
-      { title: "Equipo Tu Socio", desc: "Especialistas preparados para atender en español.", link: "/equipo" },
-      { title: "Contacto", desc: "Habla con nuestro equipo y recibe orientación.", link: "/contacto" }
-    ]
-  },
-  {
-    title: "Blog",
-    columns: 1,
-    cta: { text: "Ver todos los artículos", link: "/blog" },
-    items: [
-      { title: "Guías para Emprendedores", desc: "Contenido práctico para abrir y organizar tu empresa.", link: "/blog/guias-emprendedores" },
-      { title: "CNPJ y Contabilidad", desc: "Artículos sobre impuestos, notas fiscales y obligaciones.", link: "/blog/cnpj-contabilidad" },
-      { title: "Marketplace", desc: "Consejos para vender con seguridad online.", link: "/blog/marketplace" },
-      { title: "Impuestos y Declaraciones", desc: "Orientación sobre renta, documentos y plazos.", link: "/blog/impuestos" },
-      { title: "Vida en Brasil", desc: "Información útil para inmigrantes y empresarios.", link: "/blog/vida-en-brasil" }
+      { title: "Comprar Casa en Brasil", desc: "Orientación y trámites para adquirir tu inmueble de forma segura.", link: "/comprar-casa-brasil" },
+      { title: "Administración de Alquiler", desc: "Gestión completa y soporte con contratos de alquiler.", link: "/administracion-alquiler" },
+      { title: "Acompañamiento y Análisis de Contrato", desc: "Revisión legal de documentos y contratos inmobiliarios.", link: "/analisis-contrato" },
+      { title: "Regularización de Inmuebles", desc: "Soporte para regularizar escrituras y pendencias del inmueble.", link: "/regularizacion-inmuebles" }
     ]
   }
 ];
@@ -115,33 +122,6 @@ const accederMenu = [
 // To swap an image: replace the file in public/images/hero/ keeping the same filename.
 // ─────────────────────────────────────────────
 const heroSlides = [
-  {
-    image: '/images/hero/hero-contabilidad.webp',
-    eyebrow: 'LA SOLUCIÓN PARA TU NEGOCIO',
-    title: ['Infraestructura contable,', 'fiscal y empresarial', 'para tu negocio.'],
-    subtitle: 'Una solución completa para emprendedores, comercios y empresas que quieren operar en Brasil con seguridad, vender por marketplace y mantener CNPJ, impuestos y documentos en orden.',
-    primaryBtn: { label: 'Consultar por WhatsApp', href: WA_LINK },
-    secondaryBtn: { label: 'Conocer soluciones', href: '#soluciones' },
-    benefits: ['CNPJ listo para operar', 'Contabilidad empresarial', 'Marketplace e impuestos'],
-  },
-  {
-    image: '/images/hero/hero-renta-2026.webp',
-    eyebrow: 'TEMPORADA FISCAL 2026',
-    title: ['Declaración de renta 2026', 'con orientación', 'clara y segura.'],
-    subtitle: 'Organizamos tus ingresos, bienes, documentos y obligaciones para declarar correctamente en Brasil, con atención en español y acompañamiento paso a paso.',
-    primaryBtn: { label: 'Declarar mi renta', href: WA_LINK },
-    secondaryBtn: { label: 'Consultar requisitos', href: '#soluciones' },
-    benefits: ['Personas y empresas', 'Bienes e ingresos', 'Atención en español'],
-  },
-  {
-    image: '/images/hero/hero-marketplace.webp',
-    eyebrow: 'MARKETPLACE Y NEGOCIOS DIGITALES',
-    title: ['Vende en marketplace', 'con tu empresa', 'en orden.'],
-    subtitle: 'Preparamos tu CNPJ, certificado digital, nota fiscal, impuestos y contabilidad para vender con más seguridad en Shopee, Shein, Mercado Libre, TikTok Shop y otros canales.',
-    primaryBtn: { label: 'Preparar mi empresa', href: WA_LINK },
-    secondaryBtn: { label: 'Ver soluciones', href: '#soluciones' },
-    benefits: ['Nota fiscal', 'Certificado digital', 'Shopee, Shein y Mercado Libre'],
-  },
   {
     image: '/images/hero/hero-documentacion.webp',
     eyebrow: 'DOCUMENTOS EN BRASIL',
@@ -287,7 +267,7 @@ function HeroSlider() {
             {slide.subtitle}
           </p>
 
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
+          <div className="hero-cta-group" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
             <a href={slide.primaryBtn.href} className="btn btn-orange btn-lg btn-pill font-semibold">
               {slide.primaryBtn.label}
             </a>
@@ -401,14 +381,14 @@ const solucionesSets = [
     { title: "Gestionar", desc: "Contabilidad, nota fiscal y soporte para seguir creciendo.", icon: <BarChart3 size={24} />, cta: "Gestionar →", bg: "/soluciones/gestionar.png" }
   ],
   [
-    { title: "Vender", desc: "Prepara tu empresa para marketplace, nota fiscal y canales digitales.", icon: <ShoppingCart size={24} />, cta: "Vender →", bg: "/soluciones/abrir.png" },
-    { title: "Declarar", desc: "Impuestos, renta y obligaciones fiscales con orientación clara.", icon: <ClipboardList size={24} />, cta: "Declarar →", bg: "/soluciones/regularizar.png" },
-    { title: "Acompañar", desc: "Atención en español para que siempre sepas el próximo paso.", icon: <MessageCircle size={24} />, cta: "Acompañar →", bg: "/soluciones/gestionar.png" }
+    { title: "Vender", desc: "Prepara tu empresa para marketplace, nota fiscal y canales digitales.", icon: <ShoppingCart size={24} />, cta: "Vender →", bg: "/soluciones/vender.png" },
+    { title: "Declarar", desc: "Impuestos, renta y obligaciones fiscales con orientación clara.", icon: <ClipboardList size={24} />, cta: "Declarar →", bg: "/soluciones/declarar.png" },
+    { title: "Acompañar", desc: "Atención en español para que siempre sepas el próximo paso.", icon: <MessageCircle size={24} />, cta: "Acompañar →", bg: "/soluciones/acompanar.png" }
   ],
   [
-    { title: "Organizar", desc: "Documentos, procesos y números más claros para tu empresa.", icon: <FileText size={24} />, cta: "Organizar →", bg: "/soluciones/abrir.png" },
-    { title: "Proteger", desc: "Evita errores, multas y bloqueos por falta de regularización.", icon: <Key size={24} />, cta: "Proteger →", bg: "/soluciones/regularizar.png" },
-    { title: "Crecer", desc: "Estructura contable y empresarial para avanzar con más control.", icon: <ArrowRight size={24} />, cta: "Crecer →", bg: "/soluciones/gestionar.png" }
+    { title: "Organizar", desc: "Documentos, procesos y números más claros para tu empresa.", icon: <FileText size={24} />, cta: "Organizar →", bg: "/soluciones/organizar.png" },
+    { title: "Proteger", desc: "Evita errores, multas y bloqueos por falta de regularización.", icon: <Key size={24} />, cta: "Proteger →", bg: "/soluciones/proteger.png" },
+    { title: "Crecer", desc: "Estructura contable y empresarial para avanzar con más control.", icon: <ArrowRight size={24} />, cta: "Crecer →", bg: "/soluciones/crecer.png" }
   ]
 ];
 
@@ -418,6 +398,16 @@ function App() {
   const [isHoveredSoluciones, setIsHoveredSoluciones] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [isHoveredMetodo, setIsHoveredMetodo] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     if (isHoveredMetodo) return;
@@ -462,25 +452,117 @@ function App() {
 
           <nav className="nav-links">
             <a href="#" className="nav-link" style={{ fontWeight: 600 }}>Inicio</a>
-            {menuData.map((menu, idx) => (
-              <div key={idx} className="nav-item">
-                <a href="#" className="nav-link font-semibold">{menu.title} <ChevronDown size={14} /></a>
-                <div className={`mega-menu columns-${menu.columns}`}>
-                  {menu.items.map((item, i) => (
-                    <a key={i} href={item.link} className="mega-item">
-                      <span className="mega-item-title">{item.title}</span>
-                      <span className="mega-item-desc">{item.desc}</span>
-                    </a>
-                  ))}
-                  <div className="mega-cta">
-                    <a href={menu.cta.link}>{menu.cta.text} <ArrowRight size={14} /></a>
-                  </div>
-                </div>
+
+            <div className="nav-item group-hover" style={{ position: 'relative' }}>
+              <a href="#soluciones" className="nav-link font-semibold" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                Nuestros Servicios <ChevronDown size={14} />
+              </a>
+
+              <div className="mega-menu" style={{
+                position: 'absolute',
+                top: 'calc(100% + 12px)',
+                left: '50%',
+                transform: 'translateX(-50%) translateY(-8px)',
+                width: '95vw',
+                maxWidth: '1200px',
+                backgroundColor: 'rgba(10, 10, 10, 0.98)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '16px',
+                padding: '2rem',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(5, 1fr)',
+                gap: '1.25rem',
+                boxShadow: '0 20px 50px rgba(0, 0, 0, 0.9)',
+                zIndex: 100,
+              }}>
+                {menuData.map((category, idx) => {
+                  const catIcons = {
+                    "Contabilidad": <BarChart3 size={18} style={{ color: 'var(--color-primary)' }} />,
+                    "Documentación": <FileText size={18} style={{ color: 'var(--color-primary)' }} />,
+                    "Marketplace": <ShoppingCart size={18} style={{ color: 'var(--color-primary)' }} />,
+                    "Inversiones": <Building2 size={18} style={{ color: 'var(--color-primary)' }} />,
+                    "Inmobiliaria": <Globe size={18} style={{ color: 'var(--color-primary)' }} />
+                  };
+
+                  return (
+                    <div key={idx} style={{
+                      background: 'rgba(255, 255, 255, 0.015)',
+                      border: '1px solid rgba(255, 255, 255, 0.04)',
+                      borderRadius: '12px',
+                      padding: '1.25rem',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      transition: 'all 0.3s ease',
+                    }}>
+                      <h4 style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        color: 'white',
+                        fontSize: '0.95rem',
+                        fontWeight: 700,
+                        marginBottom: '1rem',
+                        borderBottom: '1px solid rgba(255, 90, 0, 0.15)',
+                        paddingBottom: '0.5rem'
+                      }}>
+                        {catIcons[category.title]}
+                        {category.title}
+                      </h4>
+                      <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                        {category.items.map((item, i) => (
+                          <li key={i}>
+                            <a href={item.link} className="mega-item-link" style={{
+                              display: 'block',
+                              textDecoration: 'none',
+                              transition: 'all 0.2s ease',
+                            }}>
+                              <strong style={{ display: 'block', color: '#e5e7eb', fontSize: '0.85rem', marginBottom: '2px', fontWeight: 600, transition: 'color 0.2s' }}
+                                onMouseOver={e => e.currentTarget.style.color = 'var(--color-primary)'}
+                                onMouseOut={e => e.currentTarget.style.color = '#e5e7eb'}
+                              >
+                                {item.title}
+                              </strong>
+                              <span style={{ fontSize: '0.75rem', color: '#6b7280', display: 'block', lineHeight: 1.3 }}>{item.desc}</span>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  );
+                })}
               </div>
-            ))}
+            </div>
+
+            <a href="#metodo" className="nav-link font-semibold">Quiénes Somos</a>
+            <a href="#contacto" className="nav-link font-semibold">Contacto</a>
           </nav>
 
           <div className="nav-actions">
+            {/* Social Icons */}
+            <div className="header-socials" style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.85rem',
+              marginRight: '1.25rem',
+            }}>
+              <a href="mailto:contacto@tusocio.com.br" style={{ color: '#9ca3af', display: 'flex', transition: 'color 0.2s' }}
+                onMouseOver={e => e.currentTarget.style.color = 'var(--color-primary)'}
+                onMouseOut={e => e.currentTarget.style.color = '#9ca3af'}><Mail size={18} /></a>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={{ color: '#9ca3af', display: 'flex', transition: 'color 0.2s' }}
+                onMouseOver={e => e.currentTarget.style.color = 'var(--color-primary)'}
+                onMouseOut={e => e.currentTarget.style.color = '#9ca3af'}><FacebookIcon size={18} /></a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{ color: '#9ca3af', display: 'flex', transition: 'color 0.2s' }}
+                onMouseOver={e => e.currentTarget.style.color = 'var(--color-primary)'}
+                onMouseOut={e => e.currentTarget.style.color = '#9ca3af'}><InstagramIcon size={18} /></a>
+              <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" style={{ color: '#9ca3af', display: 'flex', transition: 'color 0.2s' }}
+                onMouseOver={e => e.currentTarget.style.color = 'var(--color-primary)'}
+                onMouseOut={e => e.currentTarget.style.color = '#9ca3af'}><TikTokIcon size={18} /></a>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" style={{ color: '#9ca3af', display: 'flex', transition: 'color 0.2s' }}
+                onMouseOver={e => e.currentTarget.style.color = 'var(--color-primary)'}
+                onMouseOut={e => e.currentTarget.style.color = '#9ca3af'}><YoutubeIcon size={18} /></a>
+            </div>
+
             <div className="lang-switcher">
               ES <ChevronDown size={14} />
               <div className="lang-menu">
@@ -502,9 +584,62 @@ function App() {
             </div>
 
             <a href={WA_LINK} className="btn btn-primary btn-pill font-bold">Abrir empresa</a>
+
+            {/* Hamburger Button */}
+            <button
+              className={`hamburger-btn ${mobileMenuOpen ? 'open' : ''}`}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Menu"
+            >
+              <span className="hamburger-bar"></span>
+              <span className="hamburger-bar"></span>
+              <span className="hamburger-bar"></span>
+            </button>
           </div>
         </div>
       </header>
+
+      {/* Mobile Drawer Menu */}
+      <div className={`mobile-drawer ${mobileMenuOpen ? 'open' : ''}`}>
+        <div className="mobile-drawer-backdrop" onClick={() => setMobileMenuOpen(false)}></div>
+        <div className="mobile-drawer-panel">
+          <div className="mobile-drawer-header">
+            <img src="/logo.png" alt="Tu Socio" style={{ maxHeight: '36px', width: 'auto' }} />
+            <button className="mobile-drawer-close" onClick={() => setMobileMenuOpen(false)}>
+              ✕
+            </button>
+          </div>
+
+          <nav className="mobile-drawer-nav">
+            <a href="#" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Inicio</a>
+            {menuData.map((menu, idx) => (
+              <div key={idx} className="mobile-drawer-section" style={{ margin: '0.75rem 0 0.25rem 0' }}>
+                <div style={{ padding: '0.25rem 1rem', fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-primary)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                  {menu.title}
+                </div>
+                {menu.items.map((item, i) => (
+                  <a
+                    key={i}
+                    href={item.link}
+                    className="mobile-nav-link"
+                    onClick={() => setMobileMenuOpen(false)}
+                    style={{ paddingLeft: '1.75rem', minHeight: '40px', fontSize: '0.9rem' }}
+                  >
+                    {item.title}
+                  </a>
+                ))}
+              </div>
+            ))}
+          </nav>
+
+          <div className="mobile-drawer-footer">
+            <a href={WA_LINK} className="mobile-cta-primary">
+              <MessageCircle size={18} />
+              Consultar Especialista
+            </a>
+          </div>
+        </div>
+      </div>
 
       {/* Hero Slider */}
       <HeroSlider />
@@ -513,36 +648,55 @@ function App() {
       <section id="soluciones" className="section bg-base">
         <div className="container">
           <div className="text-center mx-auto" style={{ marginBottom: '4rem', maxWidth: '48rem' }}>
-            <p className="font-bold tracking-wider text-sm mb-3" style={{ color: 'var(--color-primary)' }}>NUESTRAS SOLUCIONES</p>
+            <div className="badge" style={{ marginBottom: '1.25rem' }}>NUESTRAS SOLUCIONES</div>
             <h2 className="heading-h2" style={{ marginBottom: '1rem', fontSize: '3rem' }}>Estructura. Orden. Crecimiento.</h2>
-            <p className="text-lg text-gray-400">Soluciones empresariales que simplifican lo complejo<br />para que tu negocio funcione con seguridad en Brasil.</p>
+            <p className="text-lg text-gray-400">Todo lo que tu negocio necesita para operar con seguridad.<br /></p>
           </div>
 
-          <div
-            className="soluciones-premium-grid"
-            onMouseEnter={() => setIsHoveredSoluciones(true)}
-            onMouseLeave={() => setIsHoveredSoluciones(false)}
-          >
-            {[0, 1, 2].map((colIndex) => (
-              <div key={colIndex} className={`soluciones-premium-card ${colIndex === 1 ? 'card-center' : ''}`} style={{ backgroundImage: `url(${solucionesSets[activeSet][colIndex].bg})` }}>
-                <div className="card-overlay"></div>
-                <div className="card-content" key={activeSet}>
-                  <div className="icon-wrapper">
-                    {solucionesSets[activeSet][colIndex].icon}
-                  </div>
-                  <div className="text-content">
-                    <h3 className="card-title">{solucionesSets[activeSet][colIndex].title}</h3>
-                    <p className="card-desc">{solucionesSets[activeSet][colIndex].desc}</p>
-                    <span className="card-cta">{solucionesSets[activeSet][colIndex].cta}</span>
+          <div style={{ position: 'relative', width: '100%' }}>
+            {/* Left side arrow button */}
+            <button
+              onClick={() => setActiveSet(prev => (prev - 1 + solucionesSets.length) % solucionesSets.length)}
+              className="soluciones-nav-btn prev"
+              aria-label="Anterior"
+            >
+              <ChevronRight size={20} style={{ transform: 'rotate(180deg)' }} />
+            </button>
+
+            <div
+              className="soluciones-premium-grid"
+              onMouseEnter={() => setIsHoveredSoluciones(true)}
+              onMouseLeave={() => setIsHoveredSoluciones(false)}
+            >
+              {[0, 1, 2].map((colIndex) => (
+                <div key={colIndex} className={`soluciones-premium-card ${colIndex === 1 ? 'card-center' : ''}`} style={{ backgroundImage: `url(${solucionesSets[activeSet][colIndex].bg})` }}>
+                  <div className="card-overlay"></div>
+                  <div className="card-content" key={activeSet}>
+                    <div className="icon-wrapper">
+                      {solucionesSets[activeSet][colIndex].icon}
+                    </div>
+                    <div className="text-content">
+                      <h3 className="card-title">{solucionesSets[activeSet][colIndex].title}</h3>
+                      <p className="card-desc">{solucionesSets[activeSet][colIndex].desc}</p>
+                      <span className="card-cta">{solucionesSets[activeSet][colIndex].cta}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            {/* Right side arrow button */}
+            <button
+              onClick={() => setActiveSet(prev => (prev + 1) % solucionesSets.length)}
+              className="soluciones-nav-btn next"
+              aria-label="Siguiente"
+            >
+              <ChevronRight size={20} />
+            </button>
           </div>
 
           {/* Full width CTA Card */}
-          <div className="cta-premium-block" style={{ backgroundImage: 'url(/soluciones/atendimento.png)' }}>
-            <div className="cta-overlay"></div>
+          <div className="cta-premium-block">
             <div className="cta-content flex-row items-center justify-between">
               <div>
                 <h3 className="text-white font-semibold text-2xl mb-2">¿No sabes por dónde empezar?</h3>
@@ -563,9 +717,9 @@ function App() {
           >
             {/* Section Header */}
             <div className="text-center mx-auto" style={{ marginBottom: '4rem', maxWidth: '56rem' }}>
-              <p style={{ color: 'var(--color-primary)', fontWeight: 700, letterSpacing: '0.15em', fontSize: '0.8rem', marginBottom: '1rem' }}>MÉTODO TU SOCIO</p>
-              <h2 className="heading-h2" style={{ marginBottom: '1rem', fontSize: '3rem' }}>De la duda al negocio en orden.</h2>
-              <p className="text-lg text-gray-400">Un acompañamiento claro para abrir, regularizar y gestionar tu empresa en Brasil,<br />con seguimiento en español en cada etapa.</p>
+              <div className="badge" style={{ marginBottom: '1.25rem' }}>MÉTODO TU SOCIO</div>
+              <h2 className="heading-h2" style={{ marginBottom: '1rem', fontSize: '3rem' }}>Un método simple para poner tu empresa en orden.</h2>
+              <p className="text-lg text-gray-400">Te acompañamos para abrir, regularizar, organizar y <br />gestionar tu empresa, paso a paso.</p>
             </div>
 
             {/* Two-column layout */}
@@ -573,8 +727,8 @@ function App() {
               {/* Left column */}
               <div className="metodo-left">
                 <div style={{ width: '40px', height: '2px', background: 'var(--color-primary)', marginBottom: '2rem' }}></div>
-                <h3 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'white', lineHeight: 1.3, marginBottom: '1.5rem' }}>Un proceso pensado para que siempre sepas el próximo paso.</h3>
-                <p style={{ color: '#9ca3af', lineHeight: 1.7, marginBottom: '2.5rem' }}>Analizamos tu caso, organizamos documentos, ejecutamos el proceso y te mantenemos informado hasta que tu empresa esté en orden.</p>
+                <h3 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'white', lineHeight: 1.3, marginBottom: '1.5rem' }}>Un método claro para avanzar con seguridad.</h3>
+                <p style={{ color: '#9ca3af', lineHeight: 1.7, marginBottom: '2.5rem' }}>Analizamos tu caso, organizamos tus documentos y te acompañamos en cada etapa, para que tu empresa esté siempre en orden.</p>
                 <a href={WA_LINK} className="btn btn-pill flex items-center gap-2" style={{ backgroundColor: 'var(--color-primary)', color: 'white', border: 'none', boxShadow: '0 4px 14px rgba(255,90,0,0.35)', width: 'fit-content' }}>
                   <MessageCircle size={18} /> Hablar con un especialista
                 </a>
@@ -583,10 +737,10 @@ function App() {
               {/* Right column - animated card */}
               {(() => {
                 const steps = [
-                  { num: '01', title: 'Diagnóstico', desc: 'Entendemos tu situación, tu actividad y lo que necesitas resolver.', icon: <MessageSquare size={28} />, bg: '/soluciones/abrir.png' },
-                  { num: '02', title: 'Ruta empresarial', desc: 'Definimos el mejor camino: CNPJ, documentos, impuestos y próximos pasos.', icon: <FileSearch size={28} />, bg: '/soluciones/regularizar.png' },
+                  { num: '01', title: 'Diagnóstico', desc: 'Entendemos tu situación, tu actividad y lo que necesitas.', icon: <MessageSquare size={28} />, bg: '/soluciones/abrir.png' },
+                  { num: '02', title: 'Plan', desc: 'Organizamos el camino: documentos, CNPJ, impuestos y lo que debes resolver primero.', icon: <FileSearch size={28} />, bg: '/soluciones/regularizar.png' },
                   { num: '03', title: 'Ejecución', desc: 'Nuestro equipo organiza el proceso, revisa documentos y acompaña cada trámite.', icon: <CheckSquare size={28} />, bg: '/soluciones/gestionar.png' },
-                  { num: '04', title: 'Acompañamiento', desc: 'Te mantenemos informado y te orientamos para seguir operando en regla.', icon: <Send size={28} />, bg: '/soluciones/atendimento.png' }
+                  { num: '04', title: 'Acompañamiento', desc: 'Te mantenemos informado y te orientamos como seguir operando.', icon: <Send size={28} />, bg: '/soluciones/atendimento.png' }
                 ];
                 const step = steps[activeStep];
                 return (
@@ -646,41 +800,108 @@ function App() {
           {/* Nuestros Números ─ Premium layout */}
           <div style={{ paddingBottom: '4rem' }}>
             <div className="text-center mx-auto" style={{ marginBottom: '3.5rem', maxWidth: '52rem' }}>
-              <p style={{ color: 'var(--color-primary)', fontWeight: 700, letterSpacing: '0.15em', fontSize: '0.8rem', marginBottom: '1rem' }}>NUESTROS NÚMEROS</p>
+              <div className="badge" style={{ marginBottom: '1.25rem' }}>NUESTROS NÚMEROS</div>
               <h2 className="heading-h2" style={{ marginBottom: '1rem', fontSize: '2.75rem' }}>
                 Confianza construida con resultados<span style={{ color: 'var(--color-primary)' }}>.</span>
               </h2>
-              <p className="text-lg text-gray-400">Números que reflejan nuestra experiencia acompañando<br />emprendedores, comercios, empresas y familias en Brasil.</p>
+              <p className="text-lg text-gray-400">Nuestros números reflejan la experiencia acompañando<br />emprendedores, comercios y familias en Brasil.</p>
             </div>
 
             <div className="numeros-premium-layout">
               {/* Main featured card */}
-              <div className="numeros-main-card bento-card" style={{ background: 'var(--color-bg-elevated)', border: '1px solid rgba(255,90,0,0.25)', borderRadius: 'var(--radius-xl)', padding: '3rem', boxShadow: '0 0 60px rgba(255,90,0,0.04)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <div style={{ width: '56px', height: '56px', borderRadius: '50%', border: '1px solid rgba(255,90,0,0.3)', color: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'auto' }}>
-                  <Users size={26} />
+              <div className="numeros-main-card bento-card" style={{ position: 'relative', overflow: 'hidden', background: 'var(--color-bg-elevated)', border: '1px solid rgba(255,90,0,0.25)', borderRadius: 'var(--radius-xl)', padding: '3rem', boxShadow: '0 0 60px rgba(255,90,0,0.04)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                {/* Tech glowing radar network background */}
+                <svg style={{ position: 'absolute', top: 0, right: 0, width: '100%', height: '100%', pointerEvents: 'none', opacity: 0.18, zIndex: 0 }} viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g opacity="0.7">
+                    <circle cx="300" cy="100" r="150" stroke="url(#grid-glow)" strokeWidth="1" strokeDasharray="4 4" />
+                    <circle cx="300" cy="100" r="100" stroke="url(#grid-glow)" strokeWidth="1.5" />
+                    <circle cx="300" cy="100" r="50" stroke="url(#grid-glow)" strokeWidth="1" strokeDasharray="2 2" />
+                    <line x1="150" y1="100" x2="450" y2="100" stroke="url(#grid-glow)" strokeWidth="1" />
+                    <line x1="300" y1="-50" x2="300" y2="250" stroke="url(#grid-glow)" strokeWidth="1" />
+                    <circle cx="300" cy="100" r="4" fill="var(--color-primary)" />
+                    <circle cx="200" cy="100" r="3" fill="var(--color-primary)" />
+                    <circle cx="300" cy="200" r="3" fill="var(--color-primary)" />
+                    <circle cx="370" cy="170" r="3" fill="var(--color-primary)" />
+                  </g>
+                  <defs>
+                    <radialGradient id="grid-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" transform="translate(300 100) rotate(90) scale(150)">
+                      <stop stopColor="var(--color-primary)" stopOpacity="0.4" />
+                      <stop offset="1" stopColor="var(--color-primary)" stopOpacity="0" />
+                    </radialGradient>
+                  </defs>
+                </svg>
+
+                {/* Elegant active client avatars stacked */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', position: 'relative', zIndex: 1, marginBottom: 'auto' }}>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    {[
+                      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80',
+                      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80',
+                      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80',
+                      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&h=100&q=80'
+                    ].map((url, idx) => (
+                      <img
+                        key={idx}
+                        src={url}
+                        alt="Cliente de Tu Socio"
+                        style={{
+                          width: '42px',
+                          height: '42px',
+                          borderRadius: '50%',
+                          border: '2.5px solid var(--color-bg-elevated)',
+                          marginLeft: idx > 0 ? '-14px' : '0',
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+                          objectFit: 'cover'
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span className="flex h-2.5 w-2.5 relative">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+                      </span>
+                      <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#e2e8f0' }}>Operando en vivo</span>
+                    </div>
+                    <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>Soporte activo en español</span>
+                  </div>
                 </div>
-                <div style={{ marginTop: '4rem' }}>
+
+                <div style={{ marginTop: '4rem', position: 'relative', zIndex: 1 }}>
                   <div style={{ fontSize: '5rem', fontWeight: 800, color: 'var(--color-primary)', lineHeight: 1, marginBottom: '0.5rem' }}>+<AnimatedStat value={5000} /></div>
-                  <h3 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'white', marginBottom: '1rem' }}>Clientes atendidos en Brasil</h3>
+                  <h3 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'white', marginBottom: '1rem' }}>Clientes atendidos</h3>
                   <div style={{ width: '40px', height: '2px', background: 'var(--color-primary)', marginBottom: '1rem' }}></div>
-                  <p style={{ color: '#9ca3af', lineHeight: 1.6 }}>Personas, familias y empresas orientadas por Tu Socio para operar con seguridad y crecimiento.</p>
+                  <p style={{ color: '#9ca3af', lineHeight: 1.6 }}>Personas, familias y empresas orientadas por Tu Socio para operar con confianza y seguridad.</p>
                 </div>
               </div>
 
               {/* 2x2 smaller cards */}
               <div className="numeros-small-grid">
                 {[
-                  { icon: <Building2 size={22} />, num: 1000, suffix: '', prefix: '+', title: 'Empresas abiertas y regularizadas', desc: 'CNPJs creados, ajustados o regularizados para operar con seguridad.' },
-                  { icon: <BarChart3 size={22} />, num: 200, suffix: '', prefix: '+', title: 'Empresas bajo gestión contable mensual', desc: 'Impuestos, obligaciones y soporte continuo todos los meses.' },
+                  { icon: <Building2 size={22} />, num: 1000, suffix: '', prefix: '+', title: 'Empresas abiertas y regularizadas', desc: 'CNPJs creados, regularizados o transformados para operar con seguridad.' },
+                  { icon: <BarChart3 size={22} />, num: 200, suffix: '', prefix: '+', title: 'Empresas bajo gestión contable', desc: 'Impuestos, obligaciones y soporte continuo todos los meses.' },
                   { icon: <ShoppingCart size={22} />, num: 60, suffix: 'M', prefix: '+R$ ', title: 'En facturación de empresas acompañadas', desc: 'Operaciones empresariales atendidas con control contable y fiscal.' },
-                  { icon: <FileText size={22} />, num: 1000, suffix: '', prefix: '+', title: 'Documentos y protocolos gestionados', desc: 'CPF, RNM y trámites documentales acompañados en Brasil.' }
+                  { icon: <FileText size={22} />, num: 1000, suffix: '', prefix: '+', title: 'Documentos y trámites elaborados', desc: "RNM's, CPF's, CNH's, Naturalización y demás trámites." }
                 ].map((s, i) => (
-                  <div key={i} className="numeros-small-card bento-card" style={{ background: 'var(--color-bg-elevated)', border: '1px solid var(--color-border-subtle)', borderRadius: 'var(--radius-xl)', padding: '2rem', display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ width: '44px', height: '44px', borderRadius: '10px', border: '1px solid rgba(255,90,0,0.25)', color: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem' }}>{s.icon}</div>
-                    <div style={{ fontSize: '2.25rem', fontWeight: 800, color: 'var(--color-primary)', lineHeight: 1, marginBottom: '0.75rem' }}>{s.prefix}<AnimatedStat value={s.num} suffix={s.suffix} /></div>
-                    <h4 style={{ fontSize: '1rem', fontWeight: 600, color: 'white', marginBottom: '0.5rem', lineHeight: 1.3 }}>{s.title}</h4>
-                    <div style={{ width: '28px', height: '2px', background: 'var(--color-primary)', marginBottom: '0.75rem' }}></div>
-                    <p style={{ color: '#9ca3af', fontSize: '0.875rem', lineHeight: 1.6 }}>{s.desc}</p>
+                  <div key={i} className="numeros-small-card bento-card" style={{ position: 'relative', overflow: 'hidden', background: 'var(--color-bg-elevated)', border: '1px solid var(--color-border-subtle)', borderRadius: 'var(--radius-xl)', padding: '2rem', display: 'flex', flexDirection: 'column', transition: 'all 0.3s ease' }}>
+                    {/* Faint orange decorative corner glow */}
+                    <div style={{
+                      position: 'absolute',
+                      top: '-30px',
+                      right: '-30px',
+                      width: '120px',
+                      height: '120px',
+                      borderRadius: '50%',
+                      background: 'radial-gradient(circle, rgba(255,90,0,0.06) 0%, rgba(255,90,0,0) 70%)',
+                      pointerEvents: 'none',
+                      zIndex: 0
+                    }} />
+                    <div style={{ position: 'relative', zIndex: 1, width: '44px', height: '44px', borderRadius: '10px', border: '1px solid rgba(255,90,0,0.25)', color: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem' }}>{s.icon}</div>
+                    <div style={{ position: 'relative', zIndex: 1, fontSize: '2.25rem', fontWeight: 800, color: 'var(--color-primary)', lineHeight: 1, marginBottom: '0.75rem' }}>{s.prefix}<AnimatedStat value={s.num} suffix={s.suffix} /></div>
+                    <h4 style={{ position: 'relative', zIndex: 1, fontSize: '1rem', fontWeight: 600, color: 'white', marginBottom: '0.5rem', lineHeight: 1.3 }}>{s.title}</h4>
+                    <div style={{ position: 'relative', zIndex: 1, width: '28px', height: '2px', background: 'var(--color-primary)', marginBottom: '0.75rem' }}></div>
+                    <p style={{ position: 'relative', zIndex: 1, color: '#9ca3af', fontSize: '0.875rem', lineHeight: 1.6 }}>{s.desc}</p>
                   </div>
                 ))}
               </div>
@@ -693,7 +914,7 @@ function App() {
       <section className="section" style={{ backgroundColor: 'var(--color-bg-surface)', padding: '6rem 0' }}>
         <div className="container" style={{ marginBottom: '3rem' }}>
           <div className="text-center">
-            <p style={{ color: 'var(--color-primary)', fontWeight: 700, letterSpacing: '0.15em', fontSize: '0.8rem', marginBottom: '1rem' }}>TESTIMONIOS</p>
+            <div className="badge" style={{ marginBottom: '1.25rem' }}>TESTIMONIOS</div>
             <h2 className="heading-h2" style={{ marginBottom: '1rem' }}>Empresarios validan nuestro trabajo.</h2>
             <p className="text-lg text-gray-400">No confíes solo en nosotros. Escucha a quienes ya usan Tu Socio.</p>
           </div>
@@ -743,7 +964,7 @@ function App() {
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '3rem', gap: '1rem', flexWrap: 'wrap' }}>
             <div>
-              <p style={{ color: 'var(--color-primary)', fontWeight: 700, letterSpacing: '0.15em', fontSize: '0.8rem', marginBottom: '0.75rem' }}>BLOG</p>
+              <div className="badge" style={{ marginBottom: '1.25rem' }}>BLOG</div>
               <h2 className="heading-h2" style={{ marginBottom: '0.5rem' }}>Recursos que impulsan tu negocio.</h2>
               <p style={{ color: '#9ca3af' }}>Contenido práctico para emprendedores y comerciantes.</p>
             </div>
@@ -858,8 +1079,19 @@ function App() {
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
         </svg>
-        WhatsApp
+        <span className="wa-float-label">WhatsApp</span>
       </a>
+
+      {/* Fixed Mobile CTA Bar */}
+      <div className="mobile-sticky-cta">
+        <a href={WA_LINK} className="cta-wa">
+          <MessageCircle size={18} />
+          Consultar Especialista
+        </a>
+        <a href="#soluciones" className="cta-learn">
+          Ver Soluciones
+        </a>
+      </div>
     </>
   );
 }
