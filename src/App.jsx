@@ -123,6 +123,33 @@ const accederMenu = [
 // ─────────────────────────────────────────────
 const heroSlides = [
   {
+    image: '/images/hero/hero-contabilidad.webp',
+    eyebrow: 'LA SOLUCIÓN PARA TU NEGOCIO',
+    title: ['Infraestructura contable,', 'fiscal y empresarial', 'para tu negocio.'],
+    subtitle: 'Una solución completa para emprendedores, comercios y empresas que quieren operar en Brasil con seguridad, vender por marketplace y mantener CNPJ, impuestos y documentos en orden.',
+    primaryBtn: { label: 'Consultar por WhatsApp', href: WA_LINK },
+    secondaryBtn: { label: 'Conocer soluciones', href: '#soluciones' },
+    benefits: ['CNPJ listo para operar', 'Contabilidad empresarial', 'Marketplace e impuestos'],
+  },
+  {
+    image: '/images/hero/hero-renta-2026.webp',
+    eyebrow: 'TEMPORADA FISCAL 2026',
+    title: ['Declaración de renta 2026', 'con orientación', 'clara y segura.'],
+    subtitle: 'Organizamos tus ingresos, bienes, documentos y obligaciones para declarar correctamente en Brasil, con atención en español y acompañamiento paso a paso.',
+    primaryBtn: { label: 'Declarar mi renta', href: WA_LINK },
+    secondaryBtn: { label: 'Consultar requisitos', href: '#soluciones' },
+    benefits: ['Personas y empresas', 'Bienes e ingresos', 'Atención en español'],
+  },
+  {
+    image: '/images/hero/hero-marketplace.webp',
+    eyebrow: 'MARKETPLACE Y NEGOCIOS DIGITALES',
+    title: ['Vende en marketplace', 'con tu empresa', 'en orden.'],
+    subtitle: 'Preparamos tu CNPJ, certificado digital, nota fiscal, impuestos y contabilidad para vender con más seguridad en Shopee, Shein, Mercado Libre, TikTok Shop y otros canales.',
+    primaryBtn: { label: 'Preparar mi empresa', href: WA_LINK },
+    secondaryBtn: { label: 'Ver soluciones', href: '#soluciones' },
+    benefits: ['Nota fiscal', 'Certificado digital', 'Shopee, Shein y Mercado Libre'],
+  },
+  {
     image: '/images/hero/hero-documentacion.webp',
     eyebrow: 'DOCUMENTOS EN BRASIL',
     title: ['CPF, RNM y trámites', 'documentales con', 'acompañamiento.'],
@@ -219,10 +246,9 @@ function HeroSlider() {
       {heroSlides.map((s, i) => (
         <div
           key={i}
-          className="hero-slide-bg"
+          className={`hero-slide-bg ${i === current ? 'active' : ''}`}
           style={{
             opacity: i === current ? 1 : 0,
-            transform: i === current ? 'scale(1.04)' : 'scale(1)',
           }}
         >
           <img

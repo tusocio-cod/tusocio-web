@@ -94,13 +94,25 @@
   padding-bottom: 6rem;
 }
 
-/* All background slides stacked, only active one is opaque */
 .hero-slide-bg {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  transition: opacity 1s ease, transform 15s linear;
+  transition: opacity 1s ease;
   will-change: transform, opacity;
+}
+
+.hero-slide-bg.active {
+  animation: cinematicZoom 15s ease-out forwards;
+}
+
+@keyframes cinematicZoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
 }
 
 /* Left-heavy dark overlay for text legibility */
@@ -209,6 +221,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero-slide-bg { transition: opacity 0.3s; }
+  .hero-slide-bg.active { animation: none; }
   .hero-slide-content { transition: opacity 0.3s; }
   .hero-dot-progress { display: none; }
 }
