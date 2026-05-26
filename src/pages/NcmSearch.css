@@ -1,0 +1,734 @@
+/* src/pages/NcmSearch.css */
+
+/* ── Badge de sincronização ─────────────────────────────── */
+.ncm-sync-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: #6b7280;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 99px;
+  padding: 0.4rem 1rem;
+  margin-bottom: 2rem;
+  width: fit-content;
+}
+
+.ncm-sync-badge svg {
+  color: #38bdf8;
+  flex-shrink: 0;
+}
+
+.ncm-sync-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #374151;
+  display: inline-block;
+}
+
+/* ── Loading indicator no header do search ──────────────── */
+.ncm-loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-left: auto;
+}
+
+/* ── Spin animation ─────────────────────────────────────── */
+@keyframes ncm-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.ncm-spin {
+  animation: ncm-spin 0.8s linear infinite;
+}
+
+/* ── Skeleton loader ────────────────────────────────────── */
+.ncm-skeleton-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.ncm-skeleton-card {
+  background: rgba(20, 20, 24, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.ncm-skeleton-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+  background-size: 200% 100%;
+  animation: ncm-shimmer 1.4s infinite;
+}
+
+.ncm-skeleton-lines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 0.25rem;
+}
+
+.ncm-skeleton-line {
+  height: 14px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+  background-size: 200% 100%;
+  animation: ncm-shimmer 1.4s infinite;
+}
+
+.ncm-skeleton-line.w80 { width: 80%; }
+.ncm-skeleton-line.w60 { width: 60%; }
+.ncm-skeleton-line.w40 { width: 40%; }
+
+@keyframes ncm-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+
+.ncm-page-wrapper {
+  background-color: #080808;
+  background-image: url('/images/hero/hero-marketplace.webp');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  color: #fff;
+  min-height: 100vh;
+  padding-top: 140px;
+  padding-bottom: 4rem;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.ncm-page-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(8, 8, 8, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 0;
+}
+
+.ncm-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.ncm-hero {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 3rem auto;
+}
+
+.ncm-hero h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.ncm-hero h1 .highlight {
+  color: #ff5a00;
+}
+
+.ncm-hero p {
+  color: #9ca3af;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  line-height: 1.6;
+}
+
+.ncm-hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.ncm-info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.ncm-info-card {
+  background: rgba(20, 20, 24, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.ncm-info-card-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(168, 85, 247, 0.1);
+  color: #a855f7;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ncm-info-card p {
+  color: #d1d5db;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Search Box */
+.ncm-search-card {
+  background: linear-gradient(180deg, rgba(30, 30, 35, 0.8) 0%, rgba(20, 20, 24, 0.9) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.ncm-search-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.ncm-search-header svg {
+  color: #a855f7;
+}
+
+.ncm-search-input-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.ncm-search-input {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.ncm-search-input:focus {
+  outline: none;
+  border-color: #ff5a00;
+  box-shadow: 0 0 0 3px rgba(255, 90, 0, 0.1);
+}
+
+.ncm-search-input::placeholder {
+  color: #6b7280;
+}
+
+.btn-search {
+  background: #ff5a00;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0 2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-search:hover {
+  background: #e65100;
+  transform: translateY(-2px);
+}
+
+/* Chips */
+.ncm-quick-chips {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.ncm-quick-chips span {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.ncm-chip {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #d1d5db;
+  padding: 0.4rem 1rem;
+  border-radius: 99px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ncm-chip:hover, .ncm-chip.active {
+  background: rgba(255, 90, 0, 0.15);
+  border-color: #ff5a00;
+  color: #fff;
+}
+
+/* Results */
+.ncm-results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.ncm-results-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.ncm-results-header h3 .highlight-text {
+  color: #ff5a00;
+}
+
+.ncm-results-count {
+  color: #9ca3af;
+  font-size: 0.85rem;
+}
+
+.ncm-results-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+/* Card */
+.ncm-result-card {
+  background: rgba(20, 20, 24, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s;
+}
+
+.ncm-result-card:hover {
+  border-color: rgba(255, 90, 0, 0.3);
+  background: rgba(25, 25, 30, 0.9);
+}
+
+.ncm-result-main {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.ncm-card-icon {
+  width: 56px;
+  height: 56px;
+  background: rgba(255, 90, 0, 0.1);
+  color: #ff5a00;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ncm-card-content {
+  flex: 1;
+}
+
+.ncm-card-code {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ncm-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.ncm-badge.alta { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+.ncm-badge.media { background: rgba(234, 179, 8, 0.2); color: #facc15; }
+.ncm-badge.revisar { background: rgba(249, 115, 22, 0.2); color: #fb923c; }
+
+.ncm-card-desc {
+  color: #d1d5db;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.ncm-card-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.ncm-tag {
+  background: rgba(255, 255, 255, 0.05);
+  color: #9ca3af;
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+}
+
+.ncm-card-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.btn-copy-ncm {
+  background: rgba(255, 90, 0, 0.1);
+  color: #ff5a00;
+  border: 1px solid rgba(255, 90, 0, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-copy-ncm:hover {
+  background: rgba(255, 90, 0, 0.2);
+}
+
+.btn-details {
+  background: transparent;
+  color: #a1a1aa;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-details:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.btn-consult-ncm {
+  background: rgba(168, 85, 247, 0.1);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.btn-consult-ncm:hover {
+  background: rgba(168, 85, 247, 0.2);
+}
+
+/* Detalles Accordion */
+.ncm-details-panel {
+  margin-top: 1.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.ncm-detail-row {
+  display: flex;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+}
+
+.ncm-detail-row:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.ncm-detail-label {
+  color: #9ca3af;
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.ncm-detail-value {
+  color: #e5e7eb;
+}
+
+.ncm-detail-alert {
+  background: rgba(249, 115, 22, 0.1);
+  border-left: 3px solid #f97316;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+  border-radius: 0 4px 4px 0;
+  font-size: 0.85rem;
+  color: #fdba74;
+}
+
+/* Empty State */
+.ncm-empty-state {
+  background: rgba(20, 20, 24, 0.6);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.ncm-empty-icon {
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #6b7280;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.ncm-empty-state h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.ncm-empty-state p {
+  color: #9ca3af;
+  margin-bottom: 1.5rem;
+  max-width: 400px;
+}
+
+/* CTA Footer */
+.ncm-cta-banner {
+  background: linear-gradient(135deg, #1f112e 0%, #2e1005 100%);
+  border: 1px solid rgba(255, 90, 0, 0.1);
+  border-radius: 20px;
+  padding: 2.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  margin-top: 3rem;
+}
+
+.ncm-cta-banner h3 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.ncm-cta-banner p {
+  color: #d1d5db;
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+.ncm-cta-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ncm-page-wrapper {
+    padding-top: 100px;
+  }
+  
+  .ncm-search-input-group {
+    flex-direction: column;
+  }
+
+  .btn-search {
+    padding: 1rem;
+    width: 100%;
+  }
+
+  .ncm-result-main {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .ncm-card-code {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .ncm-card-actions {
+    flex-direction: column;
+  }
+  
+  .ncm-cta-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .ncm-detail-row {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .ncm-quick-chips {
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .ncm-chip {
+    white-space: nowrap;
+  }
+}
+
+/* ── NCM Hierarchy Tree ── */
+.ncm-hierarchy-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #38bdf8;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+}
+
+.ncm-tree {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ncm-tree-level {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  position: relative;
+  transition: background 0.2s;
+}
+
+.ncm-tree-level:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Indentation by level */
+.ncm-tree-section  { padding-left: 0.5rem; }
+.ncm-tree-chapter  { padding-left: 1.75rem; }
+.ncm-tree-heading  { padding-left: 3rem; }
+.ncm-tree-subheading { padding-left: 4.25rem; }
+.ncm-tree-item     { padding-left: 5.5rem; }
+
+/* Connector line */
+.ncm-tree-chapter::before,
+.ncm-tree-heading::before,
+.ncm-tree-subheading::before,
+.ncm-tree-item::before {
+  content: '';
+  position: absolute;
+  left: 1.1rem;
+  top: 50%;
+  width: 0.6rem;
+  height: 1px;
+  background: rgba(255,255,255,0.15);
+}
+.ncm-tree-heading::before  { left: 2.35rem; }
+.ncm-tree-subheading::before { left: 3.6rem; }
+.ncm-tree-item::before     { left: 4.85rem; }
+
+.ncm-tree-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #38bdf8;
+  min-width: 80px;
+  flex-shrink: 0;
+}
+
+.ncm-tree-desc {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  line-height: 1.4;
+}
+
+/* Highlighted active (full code) node */
+.active-node {
+  background: rgba(56, 189, 248, 0.05);
+  border-radius: 6px;
+  border-bottom: none;
+}
+
+.active-node .ncm-tree-label {
+  color: #38bdf8;
+  font-size: 1rem;
+}
+
+.active-node .ncm-tree-desc {
+  color: #d1d5db;
+}
+
