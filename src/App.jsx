@@ -3,6 +3,7 @@ import { ChevronRight, Globe, Lock, Shield, ArrowRight, CheckCircle2, ChevronDow
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import CalculadoraPrecios from './pages/CalculadoraPrecios';
 import NcmSearch from './pages/NcmSearch';
+import ComingSoon from './pages/ComingSoon';
 
 const InstagramIcon = ({ size = 24, color = "currentColor", className = "" }) => (
   <svg
@@ -1065,6 +1066,7 @@ function App() {
         } />
         <Route path="/calculadora-precios" element={<CalculadoraPrecios />} />
         <Route path="/ncm" element={<NcmSearch />} />
+        <Route path="*" element={<ComingSoon />} />
       </Routes>
 
       {/* Footer */}
