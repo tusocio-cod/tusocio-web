@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, HelpCircle, ChevronDown, CheckCircle2, ChevronUp, Trash2, Calculator, ArrowRight, Lightbulb, AlertTriangle, MessageCircle } from 'lucide-react';
+import { Settings, HelpCircle, ChevronDown, CheckCircle2, ChevronUp, Trash2, Calculator, Lightbulb, AlertTriangle, MessageCircle, ShoppingBag } from 'lucide-react';
+
 import { marketplaceFeeConfig, calculateMarketplaceFees } from '../utils/marketplaceCalculator';
 import './CalculadoraPrecios.css';
 
@@ -10,6 +11,7 @@ export default function CalculadoraPrecios() {
   const [sellerType, setSellerType] = useState('CNPJ');
   const [hasSFP, setHasSFP] = useState(true);
   const [mode, setMode] = useState('calculateNet'); // 'calculateNet' or 'calculateSuggestedPrice'
+  const [showAdvanced, setShowAdvanced] = useState(false);
   
   const [inputs, setInputs] = useState({
     mainValue: '', // Precio final or Valor deseado
@@ -76,7 +78,7 @@ export default function CalculadoraPrecios() {
     <div className="calc-page-wrapper">
       <section className="calc-hero">
         <h1>Calcula tus precios <br/>para <span className="highlight">vender mejor</span></h1>
-        <p>Simula las tasas de Shopee, SHEIN, TikTok Shop y Mercado Livre para entender cuánto recibes o por cuánto debes vender.</p>
+        <p>Simula las taxas de Shopee, SHEIN, TikTok Shop y Mercado Livre para entender cuánto recibes o por cuánto debes vender.</p>
       </section>
 
       <div className="calc-container">
@@ -88,16 +90,16 @@ export default function CalculadoraPrecios() {
               const p = marketplaceFeeConfig[key];
               if (!p.active) return null;
               return (
-                <div 
-                  key={key} 
+                <div
+                  key={key}
                   className={`platform-btn ${platform === key ? 'active' : ''}`}
                   onClick={() => {
                     setPlatform(key);
-                    setResult(null); // Clear result on platform change
+                    setResult(null);
                   }}
                 >
-                  <ShoppingBag size={24} color={platform === key ? '#ff5a00' : '#a1a1aa'} />
-                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>{p.label}</span>
+                  <ShoppingBag size={24} style={{ marginBottom: '0.4rem', opacity: 0.8 }} />
+                  <span style={{ fontWeight: 600 }}>{p.label}</span>
                 </div>
               );
             })}
@@ -119,7 +121,7 @@ export default function CalculadoraPrecios() {
                   style={{ padding: '0.75rem', fontSize: '0.9rem', flex: 1 }}
                   onClick={() => { setSellerType('CPF'); setResult(null); }}
                 >
-                  CPF (+R$ 3,00)
+                  CPF <span className="hide-mobile-text">(+R$ 3,00)</span>
                 </button>
               </div>
             </div>
@@ -157,7 +159,7 @@ export default function CalculadoraPrecios() {
                 <div className="mode-btn-radio"><div className="inner"></div></div>
                 Quiero saber cuánto gano
               </div>
-              <div className="mode-btn-desc">Ingresa el precio final de venta y te mostramos cuánto recibes después de las tasas.</div>
+              <div className="mode-btn-desc">Ingresa el precio final de venta y te mostramos cuánto recibes después de las taxas.</div>
             </div>
             <div 
               className={`mode-btn ${mode === 'calculateSuggestedPrice' ? 'active' : ''}`}
@@ -180,8 +182,8 @@ export default function CalculadoraPrecios() {
                   <HelpCircle size={14} />
                   <div className="custom-tooltip">
                     {mode === 'calculateNet' 
-                      ? "Representa el valor total que el cliente pagará.\nEj: 219.80\nSugerencia: Ingresa el precio que planeas poner en tu anuncio." 
-                      : "Representa cuánto quieres que te quede libre de comisiones.\nEj: 150.00\nSugerencia: Calcula tu costo + tu ganancia ideal."}
+                      ? "Representa el valor total que el cliente pagará.\nEx: 219.80\nSugerencia: Ingresa el precio que planeas poner en tu anuncio." 
+                      : "Representa cuánto quieres que te quede libre de comisiones.\nEx: 150.00\nSugerencia: Calcula tu costo + tu ganancia ideal."}
                   </div>
                 </div>
               </label>
@@ -191,66 +193,83 @@ export default function CalculadoraPrecios() {
                 name="mainValue"
                 value={inputs.mainValue}
                 onChange={handleInputChange}
-                placeholder="Ej: 100.00"
+                placeholder="Ex: 100.00"
               />
             </div>
-            <div className="input-group">
-              <label className="input-label">
-                <span>Costo del producto (R$) (opcional)</span>
-                <div className="tooltip-container">
-                  <HelpCircle size={14} />
-                  <div className="custom-tooltip">
-                    Representa cuánto te costó a ti el producto (fabricación o compra al proveedor).<br/>Ej: 130.00<br/>Sugerencia: Incluye impuestos de compra o fletes.
-                  </div>
-                </div>
-              </label>
-              <input 
-                type="text" 
-                className="calc-input" 
-                name="productCost"
-                value={inputs.productCost}
-                onChange={handleInputChange}
-                placeholder="Ej: 40.00"
-              />
-            </div>
-            <div className="input-group">
-              <label className="input-label">
-                <span>Otros costos (R$) (opcional)</span>
-                <div className="tooltip-container">
-                  <HelpCircle size={14} />
-                  <div className="custom-tooltip custom-tooltip-right">
-                    Representa costos extras como embalaje, envío, publicidad (Ads), contador o devoluciones estimadas.<br/>Ej: 5.00<br/>Sugerencia: Pon un 2-5% del valor por margen de error.
-                  </div>
-                </div>
-              </label>
-              <input 
-                type="text" 
-                className="calc-input" 
-                placeholder="Ej: 5.00"
-                value={inputs.otherCosts}
-                onChange={(e) => handleInputChange(e, 'otherCosts')}
-              />
-            </div>
-            {platform === 'tiktokshop' && (
+            
+            {/* Toggle Avançado (aparece sempre no desktop via CSS ou se ativado no mobile) */}
+            {!showAdvanced && (
+              <div className="advanced-toggle-wrapper">
+                <button 
+                  className="btn-advanced-toggle"
+                  onClick={() => setShowAdvanced(true)}
+                >
+                  <Settings size={16} /> Nivel Avanzado (Añadir costos)
+                </button>
+              </div>
+            )}
+
+            <div className={`advanced-inputs-container ${showAdvanced ? 'show' : ''}`}>
               <div className="input-group">
                 <label className="input-label">
-                  <span>Comisión de afiliado (%) (opcional)</span>
+                  <span>Costo del producto (R$) (opcional)</span>
                   <div className="tooltip-container">
                     <HelpCircle size={14} />
-                    <div className="custom-tooltip custom-tooltip-right">
-                      Porcentaje de comisión destinado a afiliados en TikTok.<br/>Ej: 10<br/>Sugerencia: Ingresa el valor pactado (usualmente 10-11%).
+                    <div className="custom-tooltip">
+                      Representa cuánto te costó a ti el producto (fabricación o compra al proveedor).<br/>Ex: 130.00<br/>Sugerencia: Incluye impuestos de compra o fletes.
                     </div>
                   </div>
                 </label>
                 <input 
                   type="text" 
                   className="calc-input" 
-                  placeholder="Ej: 10"
-                  value={inputs.affiliateCommission}
-                  onChange={(e) => handleInputChange(e, 'affiliateCommission')}
+                  name="productCost"
+                  value={inputs.productCost}
+                  onChange={handleInputChange}
+                  placeholder="Ex: 40.00"
                 />
               </div>
-            )}
+              <div className="input-group">
+                <label className="input-label">
+                  <span>Otros costos (R$) (opcional)</span>
+                  <div className="tooltip-container">
+                    <HelpCircle size={14} />
+                    <div className="custom-tooltip custom-tooltip-right">
+                      Representa costos extras como embalaje, envío, publicidad (Ads), contador o devoluciones estimadas.<br/>Ex: 5.00<br/>Sugerencia: Pon un 2-5% del valor por margen de error.
+                    </div>
+                  </div>
+                </label>
+                <input 
+                  type="text" 
+                  className="calc-input" 
+                  name="otherCosts"
+                  placeholder="Ex: 5.00"
+                  value={inputs.otherCosts}
+                  onChange={handleInputChange}
+                />
+              </div>
+              {platform === 'tiktokshop' && (
+                <div className="input-group">
+                  <label className="input-label">
+                    <span>Comisión de afiliado (%) (opcional)</span>
+                    <div className="tooltip-container">
+                      <HelpCircle size={14} />
+                      <div className="custom-tooltip custom-tooltip-right">
+                        Porcentaje de comisión destinado a afiliados en TikTok.<br/>Ex: 10<br/>Sugerencia: Ingresa el valor pactado (usualmente 10-11%).
+                      </div>
+                    </div>
+                  </label>
+                  <input 
+                    type="text" 
+                    className="calc-input" 
+                    name="affiliateCommission"
+                    placeholder="Ex: 10"
+                    value={inputs.affiliateCommission}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="calc-actions">
@@ -263,7 +282,7 @@ export default function CalculadoraPrecios() {
           </div>
 
           <div style={{ marginTop: '2rem', fontSize: '0.8rem', color: '#6b7280', display: 'flex', justifyContent: 'space-between' }}>
-            <span>Base de tasas actualizada el: {config.lastUpdated || <span style={{color: '#fb923c'}}>Pendiente</span>}</span>
+            <span>Base de taxas actualizada el: {config.lastUpdated || <span style={{color: '#fb923c'}}>Pendiente</span>}</span>
           </div>
         </div>
 
@@ -297,7 +316,7 @@ export default function CalculadoraPrecios() {
                 </div>
               </div>
               <div className="result-item">
-                <div className="result-item-label">Total de tasas</div>
+                <div className="result-item-label">Total de taxas</div>
                 <div className="result-item-value negative">
                   {result ? `- ${formatMoney(result.totalPlatformFees)}` : '- R$ 0,00'}
                 </div>
@@ -340,7 +359,7 @@ export default function CalculadoraPrecios() {
                     <td>{result ? result.breakdown.commission + '%' : (platform === 'shopee' ? 'Variable' : config.commissionPercent + '%')}</td>
                   </tr>
                   <tr>
-                    <td>Tarifa de servicio</td>
+                    <td>{platform === 'tiktokshop' ? 'Tarifa de servicio (Frete Grátis)' : 'Tarifa de servicio'}</td>
                     <td>% sobre venta</td>
                     <td>{result ? result.breakdown.service + '%' : (platform === 'shopee' ? '0%' : (platform === 'tiktokshop' && hasSFP ? '6%' : config.servicePercent + '%'))}</td>
                   </tr>
@@ -360,12 +379,12 @@ export default function CalculadoraPrecios() {
                     <td>{result ? result.breakdown.extra + '%' : (platform === 'shopee' ? '0%' : (platform === 'tiktokshop' ? (inputs.affiliateCommission || '0') + '%' : config.extraFeePercent + '%'))}</td>
                   </tr>
                   <tr className="details-total-row">
-                    <td>Total de tasas</td>
+                    <td>Total de taxas</td>
                     <td>% sobre venta</td>
                     <td>{result ? result.totalPercentFees + '%' : (platform === 'shopee' ? 'Variable' : (config.commissionPercent + (platform === 'tiktokshop' && hasSFP ? 6 : config.servicePercent) + config.transactionPercent + (platform === 'tiktokshop' ? Number(inputs.affiliateCommission || 0) : config.extraFeePercent)) + '%')}</td>
                   </tr>
                   <tr>
-                    <td>Total de tasas (en R$)</td>
+                    <td>Total de taxas (en R$)</td>
                     <td></td>
                     <td>{result ? formatMoney(result.totalPlatformFees) : 'R$ 0,00'}</td>
                   </tr>
@@ -392,7 +411,7 @@ export default function CalculadoraPrecios() {
               <div style={{ marginTop: '1.5rem', fontSize: '0.8rem', color: '#6b7280' }}>
                 <p><strong>Fuente:</strong> {config.source}</p>
                 {config.notes && <p><strong>Nota:</strong> {config.notes}</p>}
-                {!config.lastUpdated && <p style={{color: '#fb923c'}}>Base de tasas pendiente de actualización por el equipo Tu Socio.</p>}
+                {!config.lastUpdated && <p style={{color: '#fb923c'}}>Base de taxas pendiente de actualización por el equipo Tu Socio.</p>}
               </div>
             </div>
 
@@ -400,7 +419,7 @@ export default function CalculadoraPrecios() {
               <Lightbulb className="disclaimer-icon" size={24}/>
               <div className="disclaimer-text">
                 Esta calculadora es una simulación.<br/>
-                Las tasas pueden variar si estás participando en acciones comerciales o promociones especiales de cada marketplace.
+                Las taxas pueden variar si estás participando en acciones comerciales o promociones especiales de cada marketplace.
               </div>
             </div>
           </div>

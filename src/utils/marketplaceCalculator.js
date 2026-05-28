@@ -12,7 +12,7 @@ export const marketplaceFeeConfig = {
     maximumFee: null,
     lastUpdated: "15/05/2024",
     source: "Política de Comisión para vendedores CNPJ e CPF para 2026",
-    notes: "Las tasas pueden variar si participas en acciones comerciales. El valor varía en función del precio final de venta."
+    notes: "Las taxas pueden variar si participas en acciones comerciales. El valor varía en función del precio final de venta."
   },
   shein: {
     label: "SHEIN",

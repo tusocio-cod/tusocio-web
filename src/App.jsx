@@ -87,7 +87,7 @@ const menuData = [
       { title: "Nota Fiscal e Impuestos", desc: "Organiza tus notas fiscales y obligaciones de venta.", link: "/nota-fiscal-impuestos" },
       { title: "Alteración de Cuenta CPF para CNPJ", desc: "Orientación para migrar de CPF a CNPJ en tus tiendas.", link: "/regularizacion-marketplace" },
       { title: "Shopee, Shein y TiktokShop", desc: "Soluciones para vendedores en las principales plataformas.", link: "/marketplace-plataformas" },
-      { title: "Calculadora de Precios", desc: "Herramienta para calcular los precios de venta en marketplaces.", link: "/calculadora-precios", isRouterLink: true },
+      { title: "Calculadora de Precios", desc: "Herramienta para calcular los precios de venta en marketplaces.", link: "/precios", isRouterLink: true },
       { title: "Buscador de NCM", desc: "Consulta de NCM para clasificación fiscal de productos.", link: "/ncm", isRouterLink: true }
     ]
   },
@@ -431,6 +431,7 @@ function App() {
   const [activeStep, setActiveStep] = useState(0);
   const [isHoveredMetodo, setIsHoveredMetodo] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeMegaTab, setActiveMegaTab] = useState(0);
 
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -479,11 +480,13 @@ function App() {
       <header className={`header-wrapper ${isScrolled ? 'scrolled' : ''}`}>
         <div className="nav-pill">
           <div className="logo">
-            <img src="/logo.png" alt="Tu Socio" style={{ maxHeight: '42px', width: 'auto' }} />
+            <Link to="/">
+              <img src="/logo.png" alt="Tu Socio" style={{ maxHeight: '42px', width: 'auto' }} />
+            </Link>
           </div>
 
           <nav className="nav-links">
-            <a href="#" className="nav-link" style={{ fontWeight: 600 }}>Inicio</a>
+            <Link to="/" className="nav-link" style={{ fontWeight: 600 }}>Inicio</Link>
 
             <div className="nav-item group-hover" style={{ position: 'relative' }}>
               <a href="#soluciones" className="nav-link font-semibold" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
@@ -501,84 +504,157 @@ function App() {
                 backdropFilter: 'blur(20px)',
                 border: '1px solid rgba(255, 255, 255, 0.08)',
                 borderRadius: '16px',
-                padding: '2rem',
-                display: 'grid',
-                gridTemplateColumns: 'repeat(5, 1fr)',
-                gap: '1.25rem',
+                padding: '0',
+                display: 'flex',
                 boxShadow: '0 20px 50px rgba(0, 0, 0, 0.9)',
                 zIndex: 100,
+                overflow: 'hidden'
               }}>
-                {menuData.map((category, idx) => {
-                  const catIcons = {
-                    "Contabilidad": <BarChart3 size={18} style={{ color: 'var(--color-primary)' }} />,
-                    "Documentación": <FileText size={18} style={{ color: 'var(--color-primary)' }} />,
-                    "Marketplace": <ShoppingCart size={18} style={{ color: 'var(--color-primary)' }} />,
-                    "Inversiones": <Building2 size={18} style={{ color: 'var(--color-primary)' }} />,
-                    "Inmobiliaria": <Globe size={18} style={{ color: 'var(--color-primary)' }} />
-                  };
+                {/* Left Sidebar (Categories) */}
+                <div style={{
+                  width: '280px',
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.06)',
+                  padding: '2rem 1.5rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.5rem'
+                }}>
+                  <div style={{ padding: '0 1rem', marginBottom: '1rem', color: '#9ca3af', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>
+                    Departamentos
+                  </div>
+                  {menuData.map((category, idx) => {
+                    const catIcons = {
+                      "Contabilidad": <BarChart3 size={18} />,
+                      "Documentación": <FileText size={18} />,
+                      "Marketplace": <ShoppingCart size={18} />,
+                      "Inversiones": <Building2 size={18} />,
+                      "Inmobiliaria": <Globe size={18} />
+                    };
+                    const isActive = activeMegaTab === idx;
+                    return (
+                      <div 
+                        key={idx}
+                        onMouseEnter={() => setActiveMegaTab(idx)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.75rem',
+                          padding: '1rem',
+                          borderRadius: '12px',
+                          cursor: 'pointer',
+                          background: isActive ? 'rgba(255, 90, 0, 0.1)' : 'transparent',
+                          border: isActive ? '1px solid rgba(255, 90, 0, 0.2)' : '1px solid transparent',
+                          color: isActive ? 'white' : '#9ca3af',
+                          transition: 'all 0.2s ease'
+                        }}
+                      >
+                        <div style={{ color: isActive ? 'var(--color-primary)' : '#6b7280' }}>
+                          {catIcons[category.title]}
+                        </div>
+                        <span style={{ fontWeight: isActive ? 700 : 500, flex: 1 }}>{category.title}</span>
+                        {isActive && <ChevronRight size={16} style={{ color: 'var(--color-primary)' }} />}
+                      </div>
+                    );
+                  })}
+                </div>
 
-                  return (
-                    <div key={idx} style={{
-                      background: 'rgba(255, 255, 255, 0.015)',
-                      border: '1px solid rgba(255, 255, 255, 0.04)',
-                      borderRadius: '12px',
-                      padding: '1.25rem',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      transition: 'all 0.3s ease',
-                    }}>
-                      <h4 style={{
-                        display: 'flex',
+                {/* Right Content Area (Items) */}
+                <div style={{
+                  flex: 1,
+                  padding: '2.5rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  background: 'rgba(10, 10, 10, 0.98)'
+                }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                    paddingBottom: '1.25rem',
+                    marginBottom: '2rem'
+                  }}>
+                    <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'white', margin: 0 }}>
+                      {menuData[activeMegaTab].title}
+                    </h3>
+                    {menuData[activeMegaTab].cta && (
+                      <a href={menuData[activeMegaTab].cta.link} target="_blank" rel="noopener noreferrer" style={{
+                        display: 'inline-flex',
                         alignItems: 'center',
                         gap: '0.5rem',
+                        padding: '0.5rem 1rem',
+                        background: 'var(--color-primary)',
+                        borderRadius: '8px',
                         color: 'white',
-                        fontSize: '0.95rem',
-                        fontWeight: 700,
-                        marginBottom: '1rem',
-                        borderBottom: '1px solid rgba(255, 90, 0, 0.15)',
-                        paddingBottom: '0.5rem'
-                      }}>
-                        {catIcons[category.title]}
-                        {category.title}
-                      </h4>
-                      <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                        {category.items.map((item, i) => (
-                          <li key={i}>
-                            {item.isRouterLink ? (
-                              <Link to={item.link} className="mega-item-link" style={{
-                                display: 'block',
-                                textDecoration: 'none',
-                                transition: 'all 0.2s ease',
-                              }}>
-                                <strong style={{ display: 'block', color: '#e5e7eb', fontSize: '0.85rem', marginBottom: '2px', fontWeight: 600, transition: 'color 0.2s' }}
-                                  onMouseOver={e => e.currentTarget.style.color = 'var(--color-primary)'}
-                                  onMouseOut={e => e.currentTarget.style.color = '#e5e7eb'}
-                                >
-                                  {item.title}
-                                </strong>
-                                <span style={{ fontSize: '0.75rem', color: '#6b7280', display: 'block', lineHeight: 1.3 }}>{item.desc}</span>
-                              </Link>
-                            ) : (
-                              <a href={item.link} className="mega-item-link" style={{
-                                display: 'block',
-                                textDecoration: 'none',
-                                transition: 'all 0.2s ease',
-                              }}>
-                                <strong style={{ display: 'block', color: '#e5e7eb', fontSize: '0.85rem', marginBottom: '2px', fontWeight: 600, transition: 'color 0.2s' }}
-                                  onMouseOver={e => e.currentTarget.style.color = 'var(--color-primary)'}
-                                  onMouseOut={e => e.currentTarget.style.color = '#e5e7eb'}
-                                >
-                                  {item.title}
-                                </strong>
-                                <span style={{ fontSize: '0.75rem', color: '#6b7280', display: 'block', lineHeight: 1.3 }}>{item.desc}</span>
-                              </a>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  );
-                })}
+                        fontSize: '0.85rem',
+                        fontWeight: 600,
+                        textDecoration: 'none',
+                        transition: 'background 0.2s'
+                      }}
+                      onMouseOver={e => e.currentTarget.style.background = '#e65100'}
+                      onMouseOut={e => e.currentTarget.style.background = 'var(--color-primary)'}
+                      >
+                        {menuData[activeMegaTab].cta.text} <ArrowRight size={14} />
+                      </a>
+                    )}
+                  </div>
+
+                  <ul style={{ 
+                    listStyle: 'none', 
+                    padding: 0, 
+                    margin: 0, 
+                    display: 'grid', 
+                    gridTemplateColumns: 'repeat(2, 1fr)',
+                    gap: '1.5rem',
+                    columnGap: '2.5rem'
+                  }}>
+                    {menuData[activeMegaTab].items.map((item, i) => {
+                      const linkContent = (
+                        <>
+                          <strong style={{ display: 'block', color: 'white', fontSize: '1rem', marginBottom: '0.5rem', fontWeight: 600, transition: 'color 0.2s' }}>
+                            {item.title}
+                          </strong>
+                          <span style={{ fontSize: '0.85rem', color: '#9ca3af', display: 'block', lineHeight: 1.5, transition: 'color 0.2s' }}>{item.desc}</span>
+                        </>
+                      );
+                      const linkProps = {
+                        className: "mega-item-link",
+                        style: {
+                          display: 'block',
+                          textDecoration: 'none',
+                          padding: '1.25rem',
+                          borderRadius: '12px',
+                          background: 'rgba(255, 255, 255, 0.02)',
+                          border: '1px solid rgba(255, 255, 255, 0.04)',
+                          transition: 'all 0.2s ease',
+                          height: '100%'
+                        },
+                        onMouseOver: e => {
+                          e.currentTarget.style.background = 'rgba(255, 90, 0, 0.05)';
+                          e.currentTarget.style.borderColor = 'rgba(255, 90, 0, 0.2)';
+                          e.currentTarget.querySelector('strong').style.color = 'var(--color-primary)';
+                          e.currentTarget.querySelector('span').style.color = '#d1d5db';
+                        },
+                        onMouseOut: e => {
+                          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)';
+                          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.04)';
+                          e.currentTarget.querySelector('strong').style.color = 'white';
+                          e.currentTarget.querySelector('span').style.color = '#9ca3af';
+                        }
+                      };
+                      return (
+                        <li key={i}>
+                          {item.isRouterLink ? (
+                            <Link to={item.link} {...linkProps}>{linkContent}</Link>
+                          ) : (
+                            <a href={item.link} {...linkProps}>{linkContent}</a>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
               </div>
             </div>
 
@@ -597,16 +673,16 @@ function App() {
               <a href="mailto:contacto@tusocio.com.br" style={{ color: '#9ca3af', display: 'flex', transition: 'color 0.2s' }}
                 onMouseOver={e => e.currentTarget.style.color = 'var(--color-primary)'}
                 onMouseOut={e => e.currentTarget.style.color = '#9ca3af'}><Mail size={18} /></a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={{ color: '#9ca3af', display: 'flex', transition: 'color 0.2s' }}
+              <a href="https://www.facebook.com/profile.php?id=61571394935733" target="_blank" rel="noopener noreferrer" style={{ color: '#9ca3af', display: 'flex', transition: 'color 0.2s' }}
                 onMouseOver={e => e.currentTarget.style.color = 'var(--color-primary)'}
                 onMouseOut={e => e.currentTarget.style.color = '#9ca3af'}><FacebookIcon size={18} /></a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{ color: '#9ca3af', display: 'flex', transition: 'color 0.2s' }}
+              <a href="https://www.instagram.com/tusociobr" target="_blank" rel="noopener noreferrer" style={{ color: '#9ca3af', display: 'flex', transition: 'color 0.2s' }}
                 onMouseOver={e => e.currentTarget.style.color = 'var(--color-primary)'}
                 onMouseOut={e => e.currentTarget.style.color = '#9ca3af'}><InstagramIcon size={18} /></a>
-              <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" style={{ color: '#9ca3af', display: 'flex', transition: 'color 0.2s' }}
+              <a href="https://www.tiktok.com/@tusociobr" target="_blank" rel="noopener noreferrer" style={{ color: '#9ca3af', display: 'flex', transition: 'color 0.2s' }}
                 onMouseOver={e => e.currentTarget.style.color = 'var(--color-primary)'}
                 onMouseOut={e => e.currentTarget.style.color = '#9ca3af'}><TikTokIcon size={18} /></a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" style={{ color: '#9ca3af', display: 'flex', transition: 'color 0.2s' }}
+              <a href="https://www.youtube.com/@tusocioBR" target="_blank" rel="noopener noreferrer" style={{ color: '#9ca3af', display: 'flex', transition: 'color 0.2s' }}
                 onMouseOver={e => e.currentTarget.style.color = 'var(--color-primary)'}
                 onMouseOut={e => e.currentTarget.style.color = '#9ca3af'}><YoutubeIcon size={18} /></a>
             </div>
@@ -1064,29 +1140,30 @@ function App() {
             </section>
           </>
         } />
-        <Route path="/calculadora-precios" element={<CalculadoraPrecios />} />
+        <Route path="/precios" element={<CalculadoraPrecios />} />
         <Route path="/ncm" element={<NcmSearch />} />
         <Route path="*" element={<ComingSoon />} />
       </Routes>
 
       {/* Footer */}
-      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.08)', background: '#080808', padding: '6rem 0 2.5rem' }}>
+      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.08)', background: '#080808', padding: '4rem 0 2rem' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr 1fr', gap: '3rem', marginBottom: '4rem' }}>
+          <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1.1fr 1.1fr 1.1fr 0.8fr 0.8fr', gap: '1.5rem', marginBottom: '2rem' }}>
             {/* Brand col */}
-            <div style={{ paddingRight: '1rem' }}>
-              <img src="/logo.png" alt="Tu Socio" style={{ maxHeight: '52px', width: 'auto', marginBottom: '1.25rem', display: 'block' }} />
-              <p style={{ fontSize: '0.875rem', color: '#6b7280', lineHeight: 1.7, marginBottom: '2rem' }}>
+            <div className="footer-brand-col" style={{ paddingRight: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+              <img src="/logo.png" alt="Tu Socio" className="footer-logo" style={{ maxHeight: '50px', width: 'auto', marginBottom: '1.25rem', display: 'block' }} />
+              <p className="footer-desc" style={{ fontSize: '0.875rem', color: '#6b7280', lineHeight: 1.7, marginBottom: '1.5rem' }}>
                 Ecosistema empresarial completo para emprendedores, comercios y empresas que quieren crecer en Brasil.
               </p>
-              <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <div className="footer-socials" style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
                 {[
-                  { href: '#', icon: <InstagramIcon size={20} /> },
-                  { href: '#', icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z" /></svg> },
-                  { href: '#', icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" /></svg> },
+                  { href: 'https://www.instagram.com/tusociobr', icon: <InstagramIcon size={20} /> },
+                  { href: 'https://www.facebook.com/profile.php?id=61571394935733', icon: <FacebookIcon size={20} /> },
+                  { href: 'https://www.tiktok.com/@tusociobr', icon: <TikTokIcon size={20} /> },
+                  { href: 'https://www.youtube.com/@tusocioBR', icon: <YoutubeIcon size={20} /> },
                   { href: WA_LINK, icon: <MessageCircle size={20} /> }
                 ].map((s, i) => (
-                  <a key={i} href={s.href} style={{ width: '40px', height: '40px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9ca3af', transition: 'all 0.2s' }}
+                  <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" style={{ width: '40px', height: '40px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9ca3af', transition: 'all 0.2s' }}
                     onMouseOver={e => { e.currentTarget.style.color = 'white'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'; }}
                     onMouseOut={e => { e.currentTarget.style.color = '#9ca3af'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
                   >{s.icon}</a>
@@ -1097,10 +1174,10 @@ function App() {
             {[{ title: 'Contabilidad', links: ['Apertura de CNPJ', 'Contabilidad Mensual', 'Regularización de CNPJ', 'Certificado Digital', 'Nota Fiscal e Impuestos', 'Consultoría Empresarial'] },
             { title: 'Marketplace', links: ['Vender en Marketplace', 'CNPJ para Marketplace', 'Nota Fiscal', 'Shopee, Shein y ML', 'Soporte para Vendedores'] },
             { title: 'Inversiones', links: ['Inversiones en Brasil', 'Organización Patrimonial', 'Impuestos sobre Inversiones', 'Planificación Financiera', 'Declaración de Renta'] },
-            { title: 'Nosotros', links: ['Quiénes Somos', 'Nuestro Método', 'Equipo', 'Contacto'] },
-            { title: 'Legal', links: ['Política de Privacidad', 'Términos de Uso'] }
+            {title: 'Nosotros', links: ['Quiénes Somos', 'Nuestro Método', 'Equipo', 'Contacto']},
+            {title: 'Legal', links: ['Política de Privacidad', 'Términos de Uso']}
             ].map((col, i) => (
-              <div key={i}>
+              <div key={i} className="footer-links-col">
                 <h4 style={{ color: 'white', fontSize: '0.9rem', fontWeight: 600, marginBottom: '1.5rem', letterSpacing: '0.02em' }}>{col.title}</h4>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
                   {col.links.map((link, j) => (
@@ -1114,9 +1191,8 @@ function App() {
             ))}
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '2rem', borderTop: '1px solid rgba(255,255,255,0.07)', flexWrap: 'wrap', gap: '1rem' }}>
-            <p style={{ color: '#4b5563', fontSize: '0.8rem' }}>© 2024 Tu Socio. Todos los derechos reservados.</p>
-            <p style={{ color: '#4b5563', fontSize: '0.8rem' }}>Ecosistema empresarial para Brasil · Atención en español</p>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingTop: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.07)', textAlign: 'center' }}>
+            <p style={{ color: '#4b5563', fontSize: '0.8rem', margin: 0 }}>© 2024 Tu Socio. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>
@@ -1157,8 +1233,8 @@ function App() {
       {/* Fixed Mobile CTA Bar */}
       <div className="mobile-sticky-cta">
         <a href={WA_LINK} className="cta-wa">
-          <MessageCircle size={18} />
-          Consultar Especialista
+          <MessageCircle size={18} style={{ flexShrink: 0 }} />
+          <span style={{ textAlign: 'left', lineHeight: '1.2' }}>Consultar<br/>Especialista</span>
         </a>
         <a href="#soluciones" className="cta-learn">
           Ver Soluciones
