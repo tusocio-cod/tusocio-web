@@ -323,4 +323,478 @@ export const ncmData = [
     lastUpdated: "15/05/2024",
     active: true
   }
+,
+  {
+  "code": "6206.40.00",
+  "normalizedCode": "62064000",
+  "officialDescription": "Camisas, blusas y blusas camiseras, para mujeres o niñas, de fibras sintéticas.",
+  "simpleDescription": "Blusas y camisas femeninas de fibras sintéticas (poliéster, nylon).",
+  "material": "De fibras sintéticas",
+  "chapter": "62",
+  "heading": "6206",
+  "subheading": "6206.40",
+  "item": "",
+  "subitem": "6206.40.00",
+  "keywords": [
+    "blusa",
+    "blusas",
+    "camisa",
+    "camisas",
+    "sintetico",
+    "sintético",
+    "poliester"
+  ],
+  "synonyms": [
+    "top",
+    "ropa femenina"
+  ],
+  "commonUses": [
+    "Blusas de poliéster"
+  ],
+  "confidenceRules": {
+    "high": [
+      "blusa sintetica",
+      "blusa poliester"
+    ],
+    "medium": [
+      "blusa"
+    ],
+    "review": []
+  },
+  "source": "NCM Update",
+  "lastUpdated": "28/05/2026",
+  "active": true
+},
+  {
+  "code": "6106.20.00",
+  "normalizedCode": "61062000",
+  "officialDescription": "Camisas, blusas y blusas camiseras, de punto, de fibras artificiales.",
+  "simpleDescription": "Blusas y camisas femeninas de fibras artificiales (viscosa, rayón).",
+  "material": "De fibras artificiales",
+  "chapter": "61",
+  "heading": "6106",
+  "subheading": "6106.20",
+  "item": "",
+  "subitem": "6106.20.00",
+  "keywords": [
+    "blusa",
+    "blusas",
+    "camisa",
+    "camisas",
+    "artificial",
+    "viscosa",
+    "viscose"
+  ],
+  "synonyms": [
+    "top",
+    "ropa femenina"
+  ],
+  "commonUses": [
+    "Blusas de viscosa"
+  ],
+  "confidenceRules": {
+    "high": [
+      "blusa artificial",
+      "blusa viscose"
+    ],
+    "medium": [
+      "blusa"
+    ],
+    "review": []
+  },
+  "source": "NCM Update",
+  "lastUpdated": "28/05/2026",
+  "active": true
+},
+  {
+  "code": "6206.90.00",
+  "normalizedCode": "62069000",
+  "officialDescription": "Camisas, blusas y blusas camiseras, de las demás materias textiles.",
+  "simpleDescription": "Blusas y camisas femeninas de otros materiales textiles (lino, seda, etc.).",
+  "material": "De otros materiales textiles",
+  "chapter": "62",
+  "heading": "6206",
+  "subheading": "6206.90",
+  "item": "",
+  "subitem": "6206.90.00",
+  "keywords": [
+    "blusa",
+    "blusas",
+    "camisa",
+    "camisas",
+    "outros materiais",
+    "otros materiales",
+    "lino",
+    "seda"
+  ],
+  "synonyms": [
+    "top",
+    "ropa femenina"
+  ],
+  "commonUses": [
+    "Blusas de lino o seda"
+  ],
+  "confidenceRules": {
+    "high": [
+      "blusa otros materiales",
+      "blusa lino"
+    ],
+    "medium": [
+      "blusa"
+    ],
+    "review": []
+  },
+  "source": "NCM Update",
+  "lastUpdated": "28/05/2026",
+  "active": true
+},
+  {
+  "code": "6104.22.00",
+  "normalizedCode": "61042200",
+  "officialDescription": "Conjuntos, de punto, de algodón.",
+  "simpleDescription": "Conjuntos femeninos de algodón (algodão).",
+  "material": "De algodão",
+  "chapter": "61",
+  "heading": "6104",
+  "subheading": "6104.22",
+  "item": "",
+  "subitem": "6104.22.00",
+  "keywords": [
+    "conjunto",
+    "conjuntos",
+    "algodon",
+    "algodão",
+    "algodón"
+  ],
+  "synonyms": [
+    "ropa femenina"
+  ],
+  "commonUses": [
+    "Conjuntos de algodón"
+  ],
+  "confidenceRules": {
+    "high": [
+      "conjunto algodon"
+    ],
+    "medium": [
+      "conjunto"
+    ],
+    "review": []
+  },
+  "source": "NCM Update",
+  "lastUpdated": "28/05/2026",
+  "active": true
+},
+  {
+  "code": "6204.29.00",
+  "normalizedCode": "62042900",
+  "officialDescription": "Conjuntos, de tejido plano, de fibras artificiales.",
+  "simpleDescription": "Conjuntos femeninos de fibras artificiales (viscosa, rayón).",
+  "material": "De fibras artificiais",
+  "chapter": "62",
+  "heading": "6204",
+  "subheading": "6204.29",
+  "item": "",
+  "subitem": "6204.29.00",
+  "keywords": [
+    "conjunto",
+    "conjuntos",
+    "artificial",
+    "viscosa",
+    "viscose"
+  ],
+  "synonyms": [
+    "ropa femenina"
+  ],
+  "commonUses": [
+    "Conjuntos de viscosa"
+  ],
+  "confidenceRules": {
+    "high": [
+      "conjunto viscose",
+      "conjunto artificial"
+    ],
+    "medium": [
+      "conjunto"
+    ],
+    "review": []
+  },
+  "source": "NCM Update",
+  "lastUpdated": "28/05/2026",
+  "active": true
+},
+  {
+  "code": "6104.29.00",
+  "normalizedCode": "61042900",
+  "officialDescription": "Conjuntos, de punto, de las demás materias textiles.",
+  "simpleDescription": "Conjuntos femeninos de otros materiales textiles (lino, seda).",
+  "material": "De outros materiais texteis",
+  "chapter": "61",
+  "heading": "6104",
+  "subheading": "6104.29",
+  "item": "",
+  "subitem": "6104.29.00",
+  "keywords": [
+    "conjunto",
+    "conjuntos",
+    "outros materiais",
+    "otros materiales",
+    "lino",
+    "seda"
+  ],
+  "synonyms": [
+    "ropa femenina"
+  ],
+  "commonUses": [
+    "Conjuntos de otros materiales"
+  ],
+  "confidenceRules": {
+    "high": [
+      "conjunto otros materiales"
+    ],
+    "medium": [
+      "conjunto"
+    ],
+    "review": []
+  },
+  "source": "NCM Update",
+  "lastUpdated": "28/05/2026",
+  "active": true
+},
+  {
+  "code": "6104.53.00",
+  "normalizedCode": "61045300",
+  "officialDescription": "Faldas y faldas pantalón, de punto, de fibras sintéticas.",
+  "simpleDescription": "Faldas (saias) de fibras sintéticas (poliéster, elastano).",
+  "material": "De fibras sintéticas",
+  "chapter": "61",
+  "heading": "6104",
+  "subheading": "6104.53",
+  "item": "",
+  "subitem": "6104.53.00",
+  "keywords": [
+    "falda",
+    "faldas",
+    "saia",
+    "saias",
+    "sintetico",
+    "sintético",
+    "poliester"
+  ],
+  "synonyms": [
+    "ropa femenina"
+  ],
+  "commonUses": [
+    "Faldas sintéticas"
+  ],
+  "confidenceRules": {
+    "high": [
+      "falda sintetica",
+      "saia poliester"
+    ],
+    "medium": [
+      "falda",
+      "saia"
+    ],
+    "review": []
+  },
+  "source": "NCM Update",
+  "lastUpdated": "28/05/2026",
+  "active": true
+},
+  {
+  "code": "6204.59.00",
+  "normalizedCode": "62045900",
+  "officialDescription": "Faldas y faldas pantalón, de tejido plano, de fibras artificiales.",
+  "simpleDescription": "Faldas (saias) de fibras artificiales (viscosa, rayón).",
+  "material": "De fibras artificiais",
+  "chapter": "62",
+  "heading": "6204",
+  "subheading": "6204.59",
+  "item": "",
+  "subitem": "6204.59.00",
+  "keywords": [
+    "falda",
+    "faldas",
+    "saia",
+    "saias",
+    "artificial",
+    "viscosa",
+    "viscose"
+  ],
+  "synonyms": [
+    "ropa femenina"
+  ],
+  "commonUses": [
+    "Faldas de viscosa"
+  ],
+  "confidenceRules": {
+    "high": [
+      "falda viscose",
+      "saia artificial"
+    ],
+    "medium": [
+      "falda",
+      "saia"
+    ],
+    "review": []
+  },
+  "source": "NCM Update",
+  "lastUpdated": "28/05/2026",
+  "active": true
+},
+  {
+  "code": "6104.59.00",
+  "normalizedCode": "61045900",
+  "officialDescription": "Faldas y faldas pantalón, de punto, de las demás materias textiles.",
+  "simpleDescription": "Faldas (saias) de otros materiales textiles (lino, seda).",
+  "material": "De outros materiais texteis",
+  "chapter": "61",
+  "heading": "6104",
+  "subheading": "6104.59",
+  "item": "",
+  "subitem": "6104.59.00",
+  "keywords": [
+    "falda",
+    "faldas",
+    "saia",
+    "saias",
+    "outros materiais",
+    "otros materiales",
+    "lino",
+    "seda"
+  ],
+  "synonyms": [
+    "ropa femenina"
+  ],
+  "commonUses": [
+    "Faldas de lino"
+  ],
+  "confidenceRules": {
+    "high": [
+      "falda otros materiales"
+    ],
+    "medium": [
+      "falda",
+      "saia"
+    ],
+    "review": []
+  },
+  "source": "NCM Update",
+  "lastUpdated": "28/05/2026",
+  "active": true
+},
+  {
+  "code": "6104.63.00",
+  "normalizedCode": "61046300",
+  "officialDescription": "Pantalones cortos (calzones) y shorts, de punto, de fibras sintéticas.",
+  "simpleDescription": "Shorts de fibras sintéticas (poliéster, elastano).",
+  "material": "De fibras sintéticas",
+  "chapter": "61",
+  "heading": "6104",
+  "subheading": "6104.63",
+  "item": "",
+  "subitem": "6104.63.00",
+  "keywords": [
+    "short",
+    "shorts",
+    "sintetico",
+    "sintético",
+    "poliester"
+  ],
+  "synonyms": [
+    "ropa femenina"
+  ],
+  "commonUses": [
+    "Shorts sintéticos"
+  ],
+  "confidenceRules": {
+    "high": [
+      "short sintetico",
+      "short poliester"
+    ],
+    "medium": [
+      "short"
+    ],
+    "review": []
+  },
+  "source": "NCM Update",
+  "lastUpdated": "28/05/2026",
+  "active": true
+},
+  {
+  "code": "6204.69.00",
+  "normalizedCode": "62046900",
+  "officialDescription": "Pantalones cortos (calzones) y shorts, de tejido plano, de fibras artificiales.",
+  "simpleDescription": "Shorts de fibras artificiales (viscosa, rayón).",
+  "material": "De fibras artificiais",
+  "chapter": "62",
+  "heading": "6204",
+  "subheading": "6204.69",
+  "item": "",
+  "subitem": "6204.69.00",
+  "keywords": [
+    "short",
+    "shorts",
+    "artificial",
+    "viscosa",
+    "viscose"
+  ],
+  "synonyms": [
+    "ropa femenina"
+  ],
+  "commonUses": [
+    "Shorts de viscosa"
+  ],
+  "confidenceRules": {
+    "high": [
+      "short viscose"
+    ],
+    "medium": [
+      "short"
+    ],
+    "review": []
+  },
+  "source": "NCM Update",
+  "lastUpdated": "28/05/2026",
+  "active": true
+},
+  {
+  "code": "6104.69.00",
+  "normalizedCode": "61046900",
+  "officialDescription": "Pantalones cortos (calzones) y shorts, de punto, de las demás materias textiles.",
+  "simpleDescription": "Shorts de otros materiales textiles (lino, seda).",
+  "material": "De outros materiais texteis",
+  "chapter": "61",
+  "heading": "6104",
+  "subheading": "6104.69",
+  "item": "",
+  "subitem": "6104.69.00",
+  "keywords": [
+    "short",
+    "shorts",
+    "outros materiais",
+    "otros materiales",
+    "lino",
+    "seda"
+  ],
+  "synonyms": [
+    "ropa femenina"
+  ],
+  "commonUses": [
+    "Shorts de otros materiales"
+  ],
+  "confidenceRules": {
+    "high": [
+      "short otros materiales"
+    ],
+    "medium": [
+      "short"
+    ],
+    "review": []
+  },
+  "source": "NCM Update",
+  "lastUpdated": "28/05/2026",
+  "active": true
+}
 ];

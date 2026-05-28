@@ -43,7 +43,21 @@ async function loadData() {
         throw new Error('Formato inválido de ncm-cache.json');
       }
 
-      _cache = json.items;
+      // Merge fetched data with local fallback data so manual additions take effect
+      const cacheMap = new Map();
+      for (const item of json.items) {
+        cacheMap.set(item.normalizedCode, item);
+      }
+      for (const item of fallbackData) {
+        if (cacheMap.has(item.normalizedCode)) {
+           // Merge, letting fallbackData override (it has our manual keywords)
+           cacheMap.set(item.normalizedCode, { ...cacheMap.get(item.normalizedCode), ...item });
+        } else {
+           cacheMap.set(item.normalizedCode, item);
+        }
+      }
+      
+      _cache = Array.from(cacheMap.values());
       _syncInfo = {
         syncedAt:   json.syncedAt   || null,
         source:     json.source     || 'BrasilAPI',
