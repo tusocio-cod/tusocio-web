@@ -4,6 +4,11 @@ import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import CalculadoraPrecios from './pages/CalculadoraPrecios';
 import NcmSearch from './pages/NcmSearch';
 import ComingSoon from './pages/ComingSoon';
+import PortalRoutes from './modules/portal/PortalRoutes';
+import AdminRoutes from './modules/admin/AdminRoutes';
+import LoginPage from './modules/auth/pages/LoginPage';
+import AccessDenied from './modules/shared/pages/AccessDenied';
+import ProtectedRoute from './modules/shared/components/ProtectedRoute';
 
 const InstagramIcon = ({ size = 24, color = "currentColor", className = "" }) => (
   <svg
@@ -433,6 +438,13 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMegaTab, setActiveMegaTab] = useState(0);
 
+  const location = useLocation();
+  const hidePublicLayout = 
+    location.pathname.startsWith('/area-cliente') || 
+    location.pathname.startsWith('/admin') ||
+    location.pathname.startsWith('/area-cliente/login') ||
+    location.pathname.startsWith('/acesso-negado');
+
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -477,7 +489,8 @@ function App() {
   return (
     <>
       {/* Navigation Pill (Mercury Style) */}
-      <header className={`header-wrapper ${isScrolled ? 'scrolled' : ''}`}>
+      {!hidePublicLayout && (
+        <header className={`header-wrapper ${isScrolled ? 'scrolled' : ''}`}>
         <div className="nav-pill">
           <div className="logo">
             <Link to="/">
@@ -722,8 +735,10 @@ function App() {
           </div>
         </div>
       </header>
+      )}
 
       {/* Mobile Drawer Menu */}
+      {!hidePublicLayout && (
       <div className={`mobile-drawer ${mobileMenuOpen ? 'open' : ''}`}>
         <div className="mobile-drawer-backdrop" onClick={() => setMobileMenuOpen(false)}></div>
         <div className="mobile-drawer-panel">
@@ -779,9 +794,25 @@ function App() {
           </div>
         </div>
       </div>
+      )}
 
       {/* Hero Slider */}
       <Routes>
+        <Route path="/area-cliente/login" element={<LoginPage />} />
+        <Route path="/acesso-negado" element={<AccessDenied />} />
+        
+        <Route path="/area-cliente/*" element={
+          <ProtectedRoute allowedRoles={['cliente', 'funcionario', 'contador', 'admin']}>
+            <PortalRoutes />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/admin/*" element={
+          <ProtectedRoute allowedRoles={['funcionario', 'contador', 'admin']}>
+            <AdminRoutes />
+          </ProtectedRoute>
+        } />
+        
         <Route path="/" element={
           <>
             <HeroSlider />
@@ -1146,6 +1177,7 @@ function App() {
       </Routes>
 
       {/* Footer */}
+      {!hidePublicLayout && (
       <footer style={{ borderTop: '1px solid rgba(255,255,255,0.08)', background: '#080808', padding: '4rem 0 2rem' }}>
         <div className="container">
           <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1.1fr 1.1fr 1.1fr 0.8fr 0.8fr', gap: '1.5rem', marginBottom: '2rem' }}>
@@ -1196,9 +1228,12 @@ function App() {
           </div>
         </div>
       </footer>
+      )}
 
-      {/* Floating WhatsApp Button */}
-      <a
+      {/* Floating WhatsApp Button and Mobile CTA */}
+      {!hidePublicLayout && (
+        <>
+          <a
         href={WA_LINK}
         target="_blank"
         rel="noopener noreferrer"
@@ -1240,6 +1275,8 @@ function App() {
           Ver Soluciones
         </a>
       </div>
+        </>
+      )}
     </>
   );
 }

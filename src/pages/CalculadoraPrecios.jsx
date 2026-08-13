@@ -10,6 +10,7 @@ export default function CalculadoraPrecios() {
   const [platform, setPlatform] = useState('shopee');
   const [sellerType, setSellerType] = useState('CNPJ');
   const [hasSFP, setHasSFP] = useState(true);
+  const [hasAffiliates, setHasAffiliates] = useState(false);
   const [mode, setMode] = useState('calculateNet'); // 'calculateNet' or 'calculateSuggestedPrice'
   const [showAdvanced, setShowAdvanced] = useState(false);
   
@@ -146,6 +147,41 @@ export default function CalculadoraPrecios() {
                   Sí (+6%)
                 </button>
               </div>
+              
+              <div className="step-title" style={{ fontSize: '0.9rem', marginBottom: '0.75rem', marginTop: '1.5rem' }}>¿Vendes con Programa de Afiliados?</div>
+              <div style={{ display: 'flex', gap: '1rem', marginBottom: hasAffiliates ? '1rem' : '0' }}>
+                <button 
+                  className={`btn-calc ${!hasAffiliates ? 'btn-calc-primary' : 'btn-calc-secondary'}`}
+                  style={{ padding: '0.75rem', fontSize: '0.9rem', flex: 1 }}
+                  onClick={() => { setHasAffiliates(false); setInputs(prev => ({...prev, affiliateCommission: ''})); setResult(null); }}
+                >
+                  No
+                </button>
+                <button 
+                  className={`btn-calc ${hasAffiliates ? 'btn-calc-primary' : 'btn-calc-secondary'}`}
+                  style={{ padding: '0.75rem', fontSize: '0.9rem', flex: 1 }}
+                  onClick={() => { setHasAffiliates(true); setResult(null); }}
+                >
+                  Sí
+                </button>
+              </div>
+              
+              {hasAffiliates && (
+                <div className="input-group" style={{ marginBottom: 0 }}>
+                  <label className="input-label" style={{ fontSize: '0.85rem' }}>
+                    <span>Porcentaje de comisión del afiliado (%)</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    className="calc-input" 
+                    name="affiliateCommission"
+                    placeholder="Ex: 10"
+                    value={inputs.affiliateCommission}
+                    onChange={handleInputChange}
+                    style={{ padding: '0.6rem', fontSize: '0.9rem' }}
+                  />
+                </div>
+              )}
             </div>
           )}
 
@@ -248,27 +284,6 @@ export default function CalculadoraPrecios() {
                   onChange={handleInputChange}
                 />
               </div>
-              {platform === 'tiktokshop' && (
-                <div className="input-group">
-                  <label className="input-label">
-                    <span>Comisión de afiliado (%) (opcional)</span>
-                    <div className="tooltip-container">
-                      <HelpCircle size={14} />
-                      <div className="custom-tooltip custom-tooltip-right">
-                        Porcentaje de comisión destinado a afiliados en TikTok.<br/>Ex: 10<br/>Sugerencia: Ingresa el valor pactado (usualmente 10-11%).
-                      </div>
-                    </div>
-                  </label>
-                  <input 
-                    type="text" 
-                    className="calc-input" 
-                    name="affiliateCommission"
-                    placeholder="Ex: 10"
-                    value={inputs.affiliateCommission}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              )}
             </div>
           </div>
 
@@ -371,7 +386,7 @@ export default function CalculadoraPrecios() {
                   <tr>
                     <td>{platform === 'shein' ? 'Intermediación de flete' : 'Tarifa fija por pedido'}</td>
                     <td>Fija</td>
-                    <td>{result ? formatMoney(result.breakdown.fixed) : (platform === 'shopee' ? (sellerType === 'CPF' ? 'R$ 4,00 a R$ 29,00' : 'R$ 4,00 a R$ 26,00') : formatMoney(config.fixedFee))}</td>
+                    <td>{result ? formatMoney(result.breakdown.fixed) : (platform === 'shopee' ? (sellerType === 'CPF' ? 'R$ 4,00 a R$ 29,00' : 'R$ 4,00 a R$ 26,00') : platform === 'tiktokshop' ? 'R$ 4,00 a R$ 6,00' : formatMoney(config.fixedFee))}</td>
                   </tr>
                   <tr>
                     <td>{platform === 'tiktokshop' ? 'Comisión de afiliado' : 'Impuestos y otros cargos'}</td>

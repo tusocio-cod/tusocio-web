@@ -35,14 +35,14 @@ export const marketplaceFeeConfig = {
     commissionPercent: 6,
     servicePercent: 0,
     transactionPercent: 0,
-    fixedFee: 4,
+    fixedFee: 6,
     shippingFeePercent: 0,
     extraFeePercent: 0,
     minimumFee: 0,
     maximumFee: null,
-    lastUpdated: "13/04/2026",
-    source: "Tarifa de Comissão da Plataforma 13/04/2026",
-    notes: "Comisión 6% + R$ 4 fijos por item. Nuevos vendedores pueden solicitar 0% de comisión por 60 días."
+    lastUpdated: "15/07/2026",
+    source: "Tarifa de Comissão da Plataforma 15/07/2026",
+    notes: "Comisión de 10% + R$ 4 (para itens abaixo de R$ 50) ou 6% + R$ 6 (para R$ 50 ou mais). Nuevos vendedores pueden solicitar 0% de comisión por 60 días."
   },
   mercadolivre: {
     label: "Mercado Livre",
@@ -118,12 +118,26 @@ export function calculateMarketplaceFees({
     return { pct, fixed };
   };
 
+  const getTiktokFees = (price) => {
+    let pct = 6;
+    let fixed = 6;
+    if (price < 50) {
+      pct = 10;
+      fixed = 4;
+    }
+    return { pct, fixed };
+  };
+
   if (mode === 'calculateNet') {
     grossPrice = Number(mainValue) || 0;
     
     if (platformId === 'shopee') {
       const { pct, fixed } = getShopeeFees(grossPrice);
       totalPercentFees = pct;
+      totalFixedFees = fixed;
+    } else if (platformId === 'tiktokshop') {
+      const { pct, fixed } = getTiktokFees(grossPrice);
+      totalPercentFees = pct + currentServicePercent + currentExtraPercent;
       totalFixedFees = fixed;
     } else {
       totalPercentFees = (config.commissionPercent || 0) + currentServicePercent + (config.transactionPercent || 0) + (config.shippingFeePercent || 0) + currentExtraPercent;
@@ -175,6 +189,35 @@ export function calculateMarketplaceFees({
       grossPrice = suggestedPrice;
       totalPlatformFees = (grossPrice * (totalPercentFees / 100)) + totalFixedFees;
 
+    } else if (platformId === 'tiktokshop') {
+      const brackets = [
+        { min: 0, max: 49.99, basePct: 10, fixed: 4 },
+        { min: 50, max: Infinity, basePct: 6, fixed: 6 }
+      ];
+
+      for (const bracket of brackets) {
+        const totalPctForBracket = bracket.basePct + currentServicePercent + currentExtraPercent;
+        const numerator = desiredNetValue + totalUserCosts + bracket.fixed;
+        const denominator = 1 - (totalPctForBracket / 100);
+        const testPrice = denominator > 0 ? numerator / denominator : 0;
+        
+        const roundedPrice = Math.round(testPrice * 100) / 100;
+        if (roundedPrice >= bracket.min && roundedPrice <= bracket.max) {
+          suggestedPrice = testPrice;
+          totalPercentFees = totalPctForBracket;
+          totalFixedFees = bracket.fixed;
+          break;
+        }
+      }
+      
+      if (suggestedPrice === 0) {
+        suggestedPrice = desiredNetValue + totalUserCosts;
+        totalPercentFees = 6 + currentServicePercent + currentExtraPercent; 
+        totalFixedFees = 6;
+      }
+      grossPrice = suggestedPrice;
+      totalPlatformFees = (grossPrice * (totalPercentFees / 100)) + totalFixedFees;
+
     } else {
       totalPercentFees = (config.commissionPercent || 0) + currentServicePercent + (config.transactionPercent || 0) + (config.shippingFeePercent || 0) + currentExtraPercent;
       totalFixedFees = config.fixedFee || 0;
@@ -192,7 +235,11 @@ export function calculateMarketplaceFees({
 
   // Breakdown handling for display
   let breakdown = {
-    commission: platformId === 'shopee' ? (totalPercentFees - 2) : config.commissionPercent || 0,
+    commission: platformId === 'shopee' 
+      ? (totalPercentFees - 2) 
+      : platformId === 'tiktokshop'
+      ? (totalPercentFees - currentServicePercent - currentExtraPercent)
+      : config.commissionPercent || 0,
     service: platformId === 'shopee' ? 0 : currentServicePercent,
     transaction: platformId === 'shopee' ? 2 : config.transactionPercent || 0,
     fixed: totalFixedFees,

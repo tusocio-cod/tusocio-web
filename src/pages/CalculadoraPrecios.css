@@ -294,7 +294,7 @@
   border-color: #ff5a00;
 }
 
-.mode-btn.active .mode-btn-radio::inner {
+.mode-btn.active .mode-btn-radio::after {
   content: '';
   width: 8px;
   height: 8px;
